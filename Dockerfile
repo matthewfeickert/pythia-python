@@ -8,6 +8,7 @@ RUN apt-get -qq -y update && \
         g++ \
         wget \
         make \
+        python3-dev \
         sudo
 RUN python3 -m pip install --upgrade --no-cache-dir pip setuptools wheel
 
@@ -21,5 +22,6 @@ RUN mkdir /code && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure \
       --prefix=/usr/local \
+      --arch=Linux \
       --with-python --with-python-include=$(which python3) && \
     make
