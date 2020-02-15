@@ -32,3 +32,5 @@ RUN mkdir /code && \
       --with-python-lib=/usr/lib/python3.7 \
       --with-python-include=/usr/include/python3.7 && \
     make
+
+ENTRYPOINT /bin/bash
