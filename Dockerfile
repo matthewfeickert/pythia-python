@@ -23,6 +23,7 @@ RUN mkdir /code && \
     wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
+    ./configure --help && \
     CXX=g++ ./configure \
       --prefix=/usr/local \
       --arch=Linux \
