@@ -34,9 +34,12 @@ RUN mkdir /code && \
       --with-python-bin=/usr/local/bin \
       --with-python-lib=/usr/lib/python${PYTHON_VERSION} \
       --with-python-include=/usr/include/python${PYTHON_VERSION} && \
-    make && \
+    make -j4 && \
+    cp -r /code/pythia8301/bin/* /usr/local/bin/ && \
     cp -r /code/pythia8301/lib/* /usr/local/lib/ && \
-    cp -r /code/pythia8301/share/* /usr/local/share/
+    cp -r /code/pythia8301/include/* /usr/local/include/ && \
+    cp -r /code/pythia8301/share/* /usr/local/share/ && \
+    rm -rf /code
 ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
