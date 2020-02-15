@@ -2,7 +2,6 @@ FROM python:3.7-slim as base
 
 FROM base as builder
 RUN apt-get -qq -y update && \
-    apt-get -qq -y upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get -qq -y install \
         gcc \
         g++ \
