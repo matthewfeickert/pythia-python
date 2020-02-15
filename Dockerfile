@@ -16,8 +16,6 @@ RUN apt-get -qq -y update && \
         apt-get -y autoremove && \
         rm -rf /var/lib/apt-get/lists/*
 
-RUN python3 -m pip install --upgrade --no-cache-dir pip setuptools wheel
-
 ENV PYTHIA_VERSION=8301
 
 RUN mkdir /code && \
