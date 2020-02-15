@@ -27,6 +27,7 @@ RUN mkdir /code && \
       --prefix=/usr/local \
       --arch=Linux \
       --cxx=g++ \
+      --with-gzip \
       --with-python \
       --with-python-bin=/usr/local/bin \
       --with-python-lib=/usr/lib/python3.7 \
