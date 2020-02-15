@@ -23,9 +23,12 @@ RUN mkdir /code && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
-    CXX=g++ ./configure \
+    ./configure \
       --prefix=/usr/local \
       --arch=Linux \
-      --with-python=$(which python3) \
+      --cxx=g++ \
+      --with-python \
+      --with-python-bin=/usr/local/bin \
+      --with-python-lib=/usr/lib/python3.7 \
       --with-python-include=/usr/include/python3.7 && \
     make
