@@ -9,7 +9,11 @@ RUN apt-get -qq -y update && \
         wget \
         make \
         python3-dev \
-        sudo
+        sudo && \
+        apt-get -y autoclean && \
+        apt-get -y autoremove && \
+        rm -rf /var/lib/apt-get/lists/*
+
 RUN python3 -m pip install --upgrade --no-cache-dir pip setuptools wheel
 
 ENV PYTHIA_VERSION=8301
