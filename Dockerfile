@@ -17,6 +17,7 @@ RUN apt-get -qq -y update && \
         rm -rf /var/lib/apt-get/lists/*
 
 ENV PYTHIA_VERSION=8301
+ENV PYTHON_VERSION=3.7
 
 RUN mkdir /code && \
     cd /code && \
@@ -29,10 +30,9 @@ RUN mkdir /code && \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
-      --with-python \
       --with-python-bin=/usr/local/bin \
-      --with-python-lib=/usr/lib/python3.7 \
-      --with-python-include=/usr/include/python3.7 && \
+      --with-python-lib=/usr/lib/python${PYTHON_VERSION} \
+      --with-python-include=/usr/include/python${PYTHON_VERSION} && \
     make
 
 ENTRYPOINT /bin/bash
