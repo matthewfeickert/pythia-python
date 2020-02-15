@@ -5,6 +5,9 @@ RUN apt-get -qq -y update && \
     DEBIAN_FRONTEND=noninteractive apt-get -qq -y install \
         gcc \
         g++ \
+        zlibc \
+        zlib1g-dev \
+        libbz2-dev \
         wget \
         make \
         python3-dev \
