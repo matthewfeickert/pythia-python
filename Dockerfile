@@ -26,5 +26,6 @@ RUN mkdir /code && \
     CXX=g++ ./configure \
       --prefix=/usr/local \
       --arch=Linux \
-      --with-python --with-python-include=$(which python3) && \
+      --with-python=$(which python3) \
+      --with-python-include=/usr/include/python3.7 && \
     make
