@@ -18,9 +18,8 @@ RUN mkdir /code && \
     cd /code && \
     wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
-    ls -lhtr && \
     cd pythia${PYTHIA_VERSION} && \
-    ./configure \
+    CXX=g++ ./configure \
       --prefix=/usr/local \
       --arch=Linux \
       --with-python --with-python-include=$(which python3) && \
