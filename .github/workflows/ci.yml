@@ -14,7 +14,12 @@ jobs:
     - uses: actions/checkout@master
     - name: Build Docker image
       run: |
-        docker build . --file Dockerfile --tag pythia-python:$GITHUB_SHA --compress
+        docker build . \
+          --file Dockerfile \
+          --build-arg PYTHON_VERSION=3.7 \
+          --build-arg PYTHIA_VERSION=8301 \
+          --tag pythia-python:$GITHUB_SHA \
+          --compress
         docker images
     - name: Run test program
       run: |
