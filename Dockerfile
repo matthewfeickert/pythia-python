@@ -52,4 +52,4 @@ COPY --from=builder /usr/local/lib /usr/local/lib
 COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/share /usr/local/share
 
-ENTRYPOINT /bin/bash
+ENTRYPOINT ["/bin/bash"]
