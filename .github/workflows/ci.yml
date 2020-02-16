@@ -16,4 +16,7 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag pythia-python:$GITHUB_SHA --compress
         docker images
+    - name: Run test program
+      run: |
         docker run --rm -v $PWD:$PWD -w $PWD pythia-python:$GITHUB_SHA -c "python tests/main01.py > main01_out.txt"
+        wc main01_out.txt
