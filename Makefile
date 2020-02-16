@@ -14,3 +14,11 @@ image:
 
 run:
 	docker run --rm -it matthewfeickert/pythia-python:latest
+
+test:
+	docker run \
+		--rm \
+		-v $(shell pwd):$(shell pwd) \
+		-w $(shell pwd) \
+		matthewfeickert/pythia-python:latest \
+		-c "python tests/main01.py > main01_out.txt"
