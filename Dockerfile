@@ -63,18 +63,7 @@ COPY --from=builder /usr/local/lib /usr/local/lib
 COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/share /usr/local/share
 
-# Create user "docker" with sudo powers
-RUN useradd -m docker && \
-    usermod -aG sudo docker && \
-    echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
-    cp /root/.bashrc /home/docker/ && \
-    mkdir /home/docker/data && \
-    chown -R --from=root docker /home/docker
-
-WORKDIR /home/docker/data
-ENV HOME /home/docker
-ENV USER docker
-USER docker
-ENV PATH /home/docker/.local/bin:$PATH
+WORKDIR /home/data
+ENV HOME /home
 
 ENTRYPOINT ["/bin/bash"]
