@@ -3,7 +3,7 @@ FROM python:${PYTHON_VERSION}-slim as base
 
 FROM base as builder
 RUN apt-get -qq -y update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -qq -y install \
+    apt-get -qq -y install \
         gcc \
         g++ \
         zlibc \
