@@ -20,22 +20,22 @@ RUN apt-get -qq -y update && \
 ARG PYTHIA_VERSION=8301
 
 # In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
-# PYTHON_VERSION needs to be set to be in scope for builder
+# _PYTHON_VERSION needs to be set to be in scope for builder
 RUN mkdir /code && \
     cd /code && \
     wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
-    PYTHON_VERSION="$(python --version | awk '{print substr($2, 1, length($2)-2)}')" \
+    _PYTHON_VERSION="$(python --version | awk '{print substr($2, 1, length($2)-2)}')" \
     ./configure \
       --prefix=/usr/local \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
       --with-python-bin=/usr/local/bin \
-      --with-python-lib=/usr/lib/python${PYTHON_VERSION} \
-      --with-python-include=/usr/include/python${PYTHON_VERSION} && \
+      --with-python-lib=/usr/lib/python${_PYTHON_VERSION} \
+      --with-python-include=/usr/include/python${_PYTHON_VERSION} && \
     make -j4 && \
     cp -r /code/pythia${PYTHIA_VERSION}/bin/* /usr/local/bin/ && \
     cp -r /code/pythia${PYTHIA_VERSION}/lib/* /usr/local/lib/ && \
