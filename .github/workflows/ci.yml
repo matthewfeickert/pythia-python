@@ -1,0 +1,31 @@
+name: CI/CD
+
+on:
+  push:
+  schedule:
+  - cron:  '1 0 * * *'
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Build Docker image
+      run: |
+        docker build . \
+          --file Dockerfile \
+          --build-arg BASE_IMAGE=python:3.7-slim \
+          --build-arg PYTHIA_VERSION=8301 \
+          --tag pythia-python:$GITHUB_SHA \
+          --compress
+        docker images
+    - name: Run test program in C++
+      run: |
+        docker run --rm -v $PWD:$PWD -w $PWD pythia-python:$GITHUB_SHA -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
+        wc main01_out_cpp.txt
+    - name: Run test program in Python
+      run: |
+        docker run --rm -v $PWD:$PWD -w $PWD pythia-python:$GITHUB_SHA -c "python tests/main01.py > main01_out_py.txt"
+        wc main01_out_py.txt
