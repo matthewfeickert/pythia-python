@@ -18,8 +18,8 @@ RUN apt-get -qq -y update && \
         rm -rf /var/lib/apt-get/lists/*
 
 ARG PYTHIA_VERSION=8301
-# PYTHON_VERSION is copied from ARG to ENV to use in scope of builder
-ENV PYTHON_VERSION=${PYTHON_VERSION}
+# copied from ARG to use in scope of builder
+ENV _PYTHON_VERSION=${PYTHON_VERSION}
 
 # In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
 RUN mkdir /code && \
@@ -34,8 +34,8 @@ RUN mkdir /code && \
       --cxx=g++ \
       --with-gzip \
       --with-python-bin=/usr/local/bin \
-      --with-python-lib=/usr/lib/python${PYTHON_VERSION} \
-      --with-python-include=/usr/include/python${PYTHON_VERSION} && \
+      --with-python-lib=/usr/lib/python${_PYTHON_VERSION} \
+      --with-python-include=/usr/include/python${_PYTHON_VERSION} && \
     make -j4 && \
     cp -r /code/pythia${PYTHIA_VERSION}/bin/* /usr/local/bin/ && \
     cp -r /code/pythia${PYTHIA_VERSION}/lib/* /usr/local/lib/ && \
