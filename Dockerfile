@@ -19,7 +19,7 @@ RUN apt-get -qq -y update && \
 
 ARG PYTHIA_VERSION=8301
 
-# In Python 8.301 the --prefix option is broken, so cp is used to install software
+# In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
 RUN mkdir /code && \
     cd /code && \
     wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
