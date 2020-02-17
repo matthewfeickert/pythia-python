@@ -45,6 +45,14 @@ RUN mkdir /code && \
     rm -rf /code
 
 FROM base
+RUN apt-get -qq -y update && \
+    apt-get -qq -y install \
+        g++ \
+        make && \
+        apt-get -y autoclean && \
+        apt-get -y autoremove && \
+        rm -rf /var/lib/apt-get/lists/*
+
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
