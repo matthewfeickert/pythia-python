@@ -1,5 +1,7 @@
-ARG PYTHON_VERSION=3.7
-FROM python:${PYTHON_VERSION}-slim as base
+ARG BASE_IMAGE=python:3.7-slim
+FROM ${BASE_IMAGE} as base
+
+SHELL [ "/bin/bash", "-c" ]
 
 FROM base as builder
 RUN apt-get -qq -y update && \
@@ -20,6 +22,7 @@ RUN apt-get -qq -y update && \
 ARG PYTHIA_VERSION=8301
 
 # In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
+# PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
     wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
