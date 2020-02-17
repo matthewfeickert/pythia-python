@@ -18,6 +18,8 @@ RUN apt-get -qq -y update && \
         rm -rf /var/lib/apt-get/lists/*
 
 ARG PYTHIA_VERSION=8301
+# ARG is replicated to use in scope of builder
+ARG PYTHON_VERSION=3.7
 
 # In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
 RUN mkdir /code && \
