@@ -1,5 +1,6 @@
-ARG PYTHON_VERSION=3.7
-FROM python:${PYTHON_VERSION}-slim as base
+#ARG PYTHON_VERSION=3.7
+#FROM python:${PYTHON_VERSION}-slim as base
+FROM python:3.7-slim as base
 
 FROM base as builder
 RUN apt-get -qq -y update && \
@@ -18,6 +19,8 @@ RUN apt-get -qq -y update && \
         rm -rf /var/lib/apt-get/lists/*
 
 ARG PYTHIA_VERSION=8301
+#ENV PYTHIA_VERSION=8301
+ENV PYTHON_VERSION=3.7
 
 # In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
 RUN mkdir /code && \
