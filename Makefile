@@ -21,4 +21,12 @@ test:
 		-v $(shell pwd):$(shell pwd) \
 		-w $(shell pwd) \
 		matthewfeickert/pythia-python:latest \
-		-c "python tests/main01.py > main01_out.txt"
+		-c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
+	wc main01_out_cpp.txt
+	docker run \
+		--rm \
+		-v $(shell pwd):$(shell pwd) \
+		-w $(shell pwd) \
+		matthewfeickert/pythia-python:latest \
+		-c "python tests/main01.py > main01_out_py.txt"
+	wc main01_out_py.txt
