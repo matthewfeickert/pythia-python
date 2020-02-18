@@ -1,0 +1,24 @@
+name: Publish Docker Images
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*
+
+jobs:
+  build-and-publish:
+    name: Build and publish Docker images to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Build and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: matthewfeickert/pythia-python
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        buildoptions: "--compress"
+        tags: "latest,pythia8.3-python3.7,pythia8.301-python3.7"
