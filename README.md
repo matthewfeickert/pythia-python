@@ -15,7 +15,7 @@ docker pull matthewfeickert/pythia-python:pythia8.301-python3.7
 
 ## Use
 
-You can either user the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
+You can either use the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
 
 ```
 docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301-python3.7 \
