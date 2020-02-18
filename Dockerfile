@@ -13,6 +13,7 @@ RUN apt-get -qq -y update && \
         libbz2-dev \
         wget \
         make \
+        rsync \
         python3-dev \
         sudo && \
         apt-get -y autoclean && \
