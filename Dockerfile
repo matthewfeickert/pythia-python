@@ -22,7 +22,6 @@ RUN apt-get -qq -y update && \
 
 ARG PYTHIA_VERSION=8301
 
-# In PYTHIA 8.301 the --prefix option is broken, so cp is used to install software
 # PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
