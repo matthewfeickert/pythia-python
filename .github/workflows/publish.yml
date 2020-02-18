@@ -2,10 +2,10 @@ name: Publish Docker Images
 
 on:
   push:
-    # branches:
-    # - master
-    # tags:
-    # - v*
+    branches:
+    - master
+    tags:
+    - v*
 
 jobs:
   build-and-publish:
@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: Publish to Registry
+    - name: Build and Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@2.12
       with:
         name: matthewfeickert/pythia-python
