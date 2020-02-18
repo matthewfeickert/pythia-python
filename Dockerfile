@@ -39,10 +39,7 @@ RUN mkdir /code && \
       --with-python-lib=/usr/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/include/python${PYTHON_MINOR_VERSION} && \
     make -j4 && \
-    cp -r /code/pythia${PYTHIA_VERSION}/bin/* /usr/local/bin/ && \
-    cp -r /code/pythia${PYTHIA_VERSION}/lib/* /usr/local/lib/ && \
-    cp -r /code/pythia${PYTHIA_VERSION}/include/* /usr/local/include/ && \
-    cp -r /code/pythia${PYTHIA_VERSION}/share/* /usr/local/share/ && \
+    make install && \
     rm -rf /code
 
 FROM base
