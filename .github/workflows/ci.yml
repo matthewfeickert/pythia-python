@@ -19,7 +19,7 @@ jobs:
       with:
         repository: matthewfeickert/pythia-python
         dockerfile: Dockerfile
-        tags: '$GITHUB_SHA'
+        tags: test
         tag_with_sha: true
         tag_with_ref: true
         push: false
@@ -27,9 +27,9 @@ jobs:
       run: docker images
     - name: Run test program in C++
       run: |
-        docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:$GITHUB_SHA -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
+        docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:test -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
         wc main01_out_cpp.txt
     - name: Run test program in Python
       run: |
-        docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:$GITHUB_SHA -c "python tests/main01.py > main01_out_py.txt"
+        docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:test -c "python tests/main01.py > main01_out_py.txt"
         wc main01_out_py.txt
