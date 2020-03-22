@@ -16,9 +16,9 @@ RUN apt-get -qq -y update && \
         rsync \
         python3-dev \
         sudo && \
-        apt-get -y autoclean && \
-        apt-get -y autoremove && \
-        rm -rf /var/lib/apt-get/lists/*
+    apt-get -y autoclean && \
+    apt-get -y autoremove && \
+    rm -rf /var/lib/apt-get/lists/*
 
 ARG PYTHIA_VERSION=8301
 
@@ -38,7 +38,7 @@ RUN mkdir /code && \
       --with-python-bin=/usr/local/bin \
       --with-python-lib=/usr/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/include/python${PYTHON_MINOR_VERSION} && \
-    make -j4 && \
+    make -j$(($(nproc) - 1)) && \
     make install && \
     rm -rf /code
 
@@ -47,9 +47,9 @@ RUN apt-get -qq -y update && \
     apt-get -qq -y install \
         g++ \
         make && \
-        apt-get -y autoclean && \
-        apt-get -y autoremove && \
-        rm -rf /var/lib/apt-get/lists/*
+    apt-get -y autoclean && \
+    apt-get -y autoremove && \
+    rm -rf /var/lib/apt-get/lists/*
 
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
