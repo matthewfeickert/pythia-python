@@ -19,7 +19,7 @@ jobs:
       with:
         repository: matthewfeickert/pythia-python
         dockerfile: Dockerfile
-        tag: $GITHUB_SHA
+        tags: $GITHUB_SHA
         tag_with_sha: true
         tag_with_ref: true
         push: false
