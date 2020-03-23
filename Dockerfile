@@ -20,8 +20,26 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-ARG PYTHIA_VERSION=8301
+# Install FastJet
+ARG FASTJET_VERSION=3.3.3
+RUN mkdir /code && \
+    cd /code && \
+    wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
+    tar xvfz fastjet-${FASTJET_VERSION}.tar.gz && \
+    cd fastjet-${FASTJET_VERSION} && \
+    ./configure --help && \
+    export CXX=$(which g++) && \
+    export PYTHON=$(which python) && \
+    ./configure \
+      --prefix=/usr/local \
+      --enable-pyext=yes && \
+    make -j$(($(nproc) - 1)) && \
+    make check && \
+    make install && \
+    rm -rf /code
 
+# Install PYTHIA
+ARG PYTHIA_VERSION=8301
 # PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
