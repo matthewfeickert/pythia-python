@@ -1,4 +1,7 @@
-# PYTHIA 8 Docker image with Python 3
+# PYTHIA 8 Docker image with Python 3 and FastJet
+
+[![Docker Pulls](https://img.shields.io/docker/pulls/matthewfeickert/pythia-python)](https://hub.docker.com/r/matthewfeickert/pythia-python)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/matthewfeickert/pythia-python/latest)](https://hub.docker.com/r/matthewfeickert/pythia-python/tags?name=latest)
 
 > PYTHIA is a program for the generation of high-energy physics events, i.e. for the description of collisions at high energies between elementary particles such as e+, e-, p and pbar in various combinations.
 
@@ -10,7 +13,7 @@
 - Use `docker pull` to pull down the image corresponding to the tag. For example:
 
 ```
-docker pull matthewfeickert/pythia-python:pythia8.301-python3.7
+docker pull matthewfeickert/pythia-python:pythia8.301
 ```
 
 ## Use
@@ -18,14 +21,14 @@ docker pull matthewfeickert/pythia-python:pythia8.301-python3.7
 You can either use the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301-python3.7 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
   -c "python tests/main01.py > main01_out_py.txt"
 ```
 
 or the original C++
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301-python3.7 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
   -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
 ```
 
