@@ -1,4 +1,7 @@
-# PYTHIA 8 Docker image with Python 3
+# PYTHIA 8 Docker image with Python 3 and FastJet
+
+[![Docker Pulls](https://img.shields.io/docker/pulls/matthewfeickert/pythia-python)](https://hub.docker.com/r/matthewfeickert/pythia-python)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/matthewfeickert/pythia-python/latest)](https://hub.docker.com/r/matthewfeickert/pythia-python/tags?name=latest)
 
 > PYTHIA is a program for the generation of high-energy physics events, i.e. for the description of collisions at high energies between elementary particles such as e+, e-, p and pbar in various combinations.
 
