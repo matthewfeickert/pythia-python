@@ -82,4 +82,5 @@ COPY --from=builder /usr/local/share /usr/local/share
 WORKDIR /home/data
 ENV HOME /home
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
+CMD ["/bin/bash"]

@@ -22,14 +22,14 @@ You can either use the image as "`PYTHIA` as a service", as demoed here with the
 
 ```
 docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
-  -c "python tests/main01.py > main01_out_py.txt"
+  "python tests/main01.py > main01_out_py.txt"
 ```
 
 or the original C++
 
 ```
 docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
-  -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
+  "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
 ```
 
 or you can run interactively
