@@ -31,7 +31,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        -c "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt";
+        "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt";
         wc main01_out_cpp.txt
     - name: Run test program in Python
       run: >-
@@ -39,7 +39,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        -c "python tests/main01.py > main01_out_py.txt";
+        "python tests/main01.py > main01_out_py.txt";
         wc main01_out_py.txt
     - name: Test FastJet
       run: >-
@@ -47,11 +47,11 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        -c "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
+        "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
     - name: Test FastJet Python
       run: >-
         docker run --rm
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        -c "python tests/test_FastJet.py"
+        "python tests/test_FastJet.py"
