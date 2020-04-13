@@ -13,12 +13,39 @@ RUN apt-get -qq -y update && \
         libbz2-dev \
         wget \
         make \
+        cmake \
         rsync \
         python3-dev \
         sudo && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
+
+# Install built code under /copy to COPY to final image
+RUN mkdir -p /copy/local
+
+# Install HepMC
+ARG HEPMC_VERSION=3.2.1
+RUN mkdir /code && \
+    cd /code && \
+    wget http://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tar.gz && \
+    tar xvfz HepMC3-${HEPMC_VERSION}.tar.gz && \
+    mv HepMC3-${HEPMC_VERSION} src && \
+    export PYTHON_MINOR_VERSION=${PYTHON_VERSION::-2} && \
+    mkdir build && \
+    cd build && \
+    cmake \
+      -DHEPMC3_ENABLE_ROOTIO=OFF \
+      -DHEPMC3_ENABLE_TEST=ON \
+      -DHEPMC3_BUILD_EXAMPLES=OFF \
+      -DHEPMC3_PYTHON_VERSIONS=3.X \
+      -DPYTHON_EXECUTABLE=$(which python3) \
+      -DCMAKE_INSTALL_PREFIX=/copy/local \
+      ../src && \
+    cmake --build . -- -j$(($(nproc) - 1)) && \
+    cmake --build . --target install && \
+    ctest --verbose --output-on-failure && \
+    rm -rf /code
 
 # Install FastJet
 ARG FASTJET_VERSION=3.3.3
