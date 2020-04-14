@@ -65,6 +65,24 @@ RUN mkdir /code && \
     make install && \
     rm -rf /code
 
+# Install HEPMC
+ARG HEPMC_VERSION=02_06_10
+RUN mkdir /code && \
+    cd /code && \
+    git clone  https://gitlab.cern.ch/hepmc/HepMC.git && \
+    cd HepMC/ && \
+    git checkout tags/HEPMC_${HEPMC_VERSION} -b HEPMC_${HEPMC_VERSION} && \
+    cd ../ && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
+    	  -Dmomentum:STRING=MEV \
+	  -Dlength:STRING=MM \
+	  /code/HepMC && \
+    make -j$(($(nproc) - 1)) && \
+    make install && \
+    rm -rf /code
+
 # Install PYTHIA
 ARG PYTHIA_VERSION=8301
 # PYTHON_VERSION already exists in the base image
