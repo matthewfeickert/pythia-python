@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
       break;
     }
 
-    
+
     // Construct new empty HepMC event and fill it.
     // Units will be as chosen for HepMC build, but can be changed
     // by arguments, e.g. GenEvt( HepMC::Units::GEV, HepMC::Units::MM)
@@ -109,4 +109,3 @@ int main(int argc, char* argv[]) {
     // Done.
   return 0;
 }
-
