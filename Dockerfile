@@ -25,26 +25,24 @@ RUN apt-get -qq -y update && \
 RUN mkdir -p /copy/local
 
 # Install HepMC
-ARG HEPMC_VERSION=3.2.1
+ARG HEPMC_VERSION=2.06.10
 RUN mkdir /code && \
     cd /code && \
-    wget http://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tar.gz && \
-    tar xvfz HepMC3-${HEPMC_VERSION}.tar.gz && \
-    mv HepMC3-${HEPMC_VERSION} src && \
-    export PYTHON_MINOR_VERSION=${PYTHON_VERSION::-2} && \
+    wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
+    tar xvfz hepmc${HEPMC_VERSION}.tgz && \
+    mv HepMC-${HEPMC_VERSION} src && \
     mkdir build && \
     cd build && \
     cmake \
-      -DHEPMC3_ENABLE_ROOTIO=OFF \
-      -DHEPMC3_ENABLE_TEST=ON \
-      -DHEPMC3_BUILD_EXAMPLES=OFF \
-      -DHEPMC3_PYTHON_VERSIONS=3.X \
-      -DPYTHON_EXECUTABLE=$(which python3) \
+      -DCMAKE_CXX_COMPILER=$(which g++) \
+      -DCMAKE_BUILD_TYPE=Release \
+      -Dbuild_docs:BOOL=OFF \
+      -Dmomentum:STRING=MEV \
+      -Dlength:STRING=MM \
       -DCMAKE_INSTALL_PREFIX=/copy/local \
       ../src && \
     cmake --build . -- -j$(($(nproc) - 1)) && \
     cmake --build . --target install && \
-    ctest --verbose --output-on-failure && \
     rm -rf /code
 
 # Install FastJet
@@ -62,24 +60,6 @@ RUN mkdir /code && \
       --enable-pyext=yes && \
     make -j$(($(nproc) - 1)) && \
     make check && \
-    make install && \
-    rm -rf /code
-
-# Install HEPMC
-ARG HEPMC_VERSION=02_06_10
-RUN mkdir /code && \
-    cd /code && \
-    git clone  https://gitlab.cern.ch/hepmc/HepMC.git && \
-    cd HepMC/ && \
-    git checkout tags/HEPMC_${HEPMC_VERSION} -b HEPMC_${HEPMC_VERSION} && \
-    cd ../ && \
-    mkdir build && \
-    cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
-    	  -Dmomentum:STRING=MEV \
-	  -Dlength:STRING=MM \
-	  /code/HepMC && \
-    make -j$(($(nproc) - 1)) && \
     make install && \
     rm -rf /code
 
