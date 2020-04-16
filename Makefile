@@ -10,7 +10,7 @@ image:
 	--build-arg FASTJET_VERSION=3.3.3 \
 	--build-arg PYTHIA_VERSION=8301 \
 	--tag matthewfeickert/pythia-python:pythia8.301 \
-	--tag matthewfeickert/pythia-python:pythia8.301-fastjet3.3.3-python3.7 \
+	--tag matthewfeickert/pythia-python:pythia8.301-hepmc2.06.10-fastjet3.3.3-python3.7 \
 	--tag matthewfeickert/pythia-python:latest
 
 run:
