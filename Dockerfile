@@ -74,10 +74,22 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-COPY --from=builder /usr/local/bin /usr/local/bin
-COPY --from=builder /usr/local/lib /usr/local/lib
-COPY --from=builder /usr/local/include /usr/local/include
-COPY --from=builder /usr/local/share /usr/local/share
+
+# copy FastJet
+COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
+COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
+COPY --from=builder /usr/local/lib/python3.7/site-packages/*fastjet* /usr/local/lib/python3.7/site-packages/
+COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
+COPY --from=builder /usr/local/include/fastjet /usr/local/include/
+COPY --from=builder /usr/local/include/siscone /usr/local/include/
+
+# copy PYTHIA
+COPY --from=builder /usr/local/bin/pythia8-config /usr/local/bin/
+COPY --from=builder /usr/local/lib/libpythia8* /usr/local/lib/
+COPY --from=builder /usr/local/lib/pythia8.so /usr/local/lib/
+COPY --from=builder /usr/local/include/Pythia8 /usr/local/include/
+COPY --from=builder /usr/local/include/Pythia8Plugins /usr/local/include/
+COPY --from=builder /usr/local/share/Pythia8 /usr/local/share/
 
 WORKDIR /home/data
 ENV HOME /home
