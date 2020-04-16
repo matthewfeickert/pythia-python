@@ -47,7 +47,8 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        "g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd $cfifo"
+        "g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.txt"
+        wc main42_out.txt
     - name: Test FastJet
       run: >-
         docker run --rm
