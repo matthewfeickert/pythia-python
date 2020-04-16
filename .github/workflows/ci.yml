@@ -41,6 +41,14 @@ jobs:
         matthewfeickert/pythia-python:test
         "python tests/main01.py > main01_out_py.txt";
         wc main01_out_py.txt
+    - name: Test HepMC
+      run: >-
+        docker run --rm
+        -v $PWD:$PWD
+        -w $PWD
+        matthewfeickert/pythia-python:test
+        "g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
+        wc main42_out.hepmc
     - name: Test FastJet
       run: >-
         docker run --rm
