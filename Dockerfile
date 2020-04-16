@@ -21,9 +21,6 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-# Install built code under /copy to COPY to final image
-RUN mkdir -p /copy/local
-
 # Install HepMC
 ARG HEPMC_VERSION=2.06.10
 RUN mkdir /code && \
@@ -39,7 +36,7 @@ RUN mkdir /code && \
       -Dbuild_docs:BOOL=OFF \
       -Dmomentum:STRING=MEV \
       -Dlength:STRING=MM \
-      -DCMAKE_INSTALL_PREFIX=/copy/local \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
       ../src && \
     cmake --build . -- -j$(($(nproc) - 1)) && \
     cmake --build . --target install && \
@@ -100,6 +97,11 @@ ENV LANG=C.UTF-8
 ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
+
+# copy HepMC
+COPY --from=builder /usr/local/lib/libHepMC* /usr/local/lib/
+COPY --from=builder /usr/local/include/HepMC /usr/local/include/HepMC
+COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
