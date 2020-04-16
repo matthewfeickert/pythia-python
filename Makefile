@@ -13,15 +13,6 @@ image:
 	--tag matthewfeickert/pythia-python:pythia8.301-fastjet3.3.3-python3.7 \
 	--tag matthewfeickert/pythia-python:latest
 
-MLB:
-	docker build . \
-	-f Dockerfile \
-	--build-arg BASE_IMAGE=python:3.7-slim \
-	--build-arg HEPMC_VERSION=2.06.10 \
-	--build-arg FASTJET_VERSION=3.3.3 \
-	--build-arg PYTHIA_VERSION=8301 \
-	--tag mattleblanc/pythia-python:latest
-
 run:
 	docker run --rm -it matthewfeickert/pythia-python:latest
 
