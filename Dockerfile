@@ -20,9 +20,6 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-# Install built code under /copy to COPY to final image
-RUN mkdir -p /copy/local
-
 # Install FastJet
 ARG FASTJET_VERSION=3.3.3
 RUN mkdir /code && \
@@ -34,7 +31,7 @@ RUN mkdir /code && \
     export CXX=$(which g++) && \
     export PYTHON=$(which python) && \
     ./configure \
-      --prefix=/copy/local \
+      --prefix=/usr/local \
       --enable-pyext=yes && \
     make -j$(($(nproc) - 1)) && \
     make check && \
@@ -52,7 +49,7 @@ RUN mkdir /code && \
     ./configure --help && \
     export PYTHON_MINOR_VERSION=${PYTHON_VERSION::-2} && \
     ./configure \
-      --prefix=/copy/local \
+      --prefix=/usr/local \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
@@ -77,10 +74,23 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-COPY --from=builder /copy/local/bin /usr/local/bin
-COPY --from=builder /copy/local/lib /usr/local/lib
-COPY --from=builder /copy/local/include /usr/local/include
-COPY --from=builder /copy/local/share /usr/local/share
+ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
+
+# copy FastJet
+COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
+COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
+COPY --from=builder /usr/local/lib/python3.7/site-packages/*fastjet* /usr/local/lib/python3.7/site-packages/
+COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
+COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
+COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone
+
+# copy PYTHIA
+COPY --from=builder /usr/local/bin/pythia8-config /usr/local/bin/
+COPY --from=builder /usr/local/lib/libpythia8* /usr/local/lib/
+COPY --from=builder /usr/local/lib/pythia8.so /usr/local/lib/
+COPY --from=builder /usr/local/include/Pythia8 /usr/local/include/Pythia8
+COPY --from=builder /usr/local/include/Pythia8Plugins /usr/local/include/Pythia8Plugins
+COPY --from=builder /usr/local/share/Pythia8 /usr/local/share/Pythia8
 
 WORKDIR /home/data
 ENV HOME /home
