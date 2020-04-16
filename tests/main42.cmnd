@@ -5,7 +5,7 @@
 ! The changes here are illustrative, not always physics-motivated.
 
 ! 1) Settings that will be used in a main program.
-Main:numberOfEvents = 250          ! number of events to generate
+Main:numberOfEvents = 10          ! number of events to generate
 Main:timesAllowErrors = 3          ! abort run after this many flawed events
 
 ! 2) Settings related to output in init(), next() and stat().
