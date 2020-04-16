@@ -31,3 +31,11 @@ test:
 		matthewfeickert/pythia-python:latest \
 		"python tests/main01.py > main01_out_py.txt"
 	wc main01_out_py.txt
+
+test_hepmc:
+	docker run \
+		--rm \
+		-v $(shell pwd):$(shell pwd) \
+		-w $(shell pwd) \
+		matthewfeickert/pythia-python:latest \
+		"g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
