@@ -43,7 +43,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install FastJet
-ARG FASTJET_VERSION=3.3.3
+ARG FASTJET_VERSION=3.3.4
 RUN mkdir /code && \
     cd /code && \
     wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
