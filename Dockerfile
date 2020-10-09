@@ -22,7 +22,7 @@ RUN apt-get -qq -y update && \
     rm -rf /var/lib/apt-get/lists/*
 
 # Install HepMC
-ARG HEPMC_VERSION=2.06.10
+ARG HEPMC_VERSION=2.06.11
 RUN mkdir /code && \
     cd /code && \
     wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
