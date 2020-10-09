@@ -13,7 +13,7 @@
 - Use `docker pull` to pull down the image corresponding to the tag. For example:
 
 ```
-docker pull matthewfeickert/pythia-python:pythia8.301
+docker pull matthewfeickert/pythia-python:pythia8.303
 ```
 
 ## Use
@@ -21,14 +21,14 @@ docker pull matthewfeickert/pythia-python:pythia8.301
 You can either use the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.303 \
   "python tests/main01.py > main01_out_py.txt"
 ```
 
 or the original C++
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.301 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.303 \
   "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
 ```
 
