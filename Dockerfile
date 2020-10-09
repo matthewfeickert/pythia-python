@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.7-slim
+ARG BASE_IMAGE=python:3.8-slim
 FROM ${BASE_IMAGE} as base
 
 SHELL [ "/bin/bash", "-c" ]
@@ -106,7 +106,7 @@ COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
 COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.7/site-packages/*fastjet* /usr/local/lib/python3.7/site-packages/
+COPY --from=builder /usr/local/lib/python3.8/site-packages/*fastjet* /usr/local/lib/python3.8/site-packages/
 COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
 COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
 COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone
