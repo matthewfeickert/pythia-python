@@ -1,4 +1,4 @@
-# PYTHIA 8 Docker image with Python 3, HepMC, and FastJet
+# PYTHIA 8 Docker image with Python 3 and HEP simulation stack
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/matthewfeickert/pythia-python)](https://hub.docker.com/r/matthewfeickert/pythia-python)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/matthewfeickert/pythia-python/latest)](https://hub.docker.com/r/matthewfeickert/pythia-python/tags?name=latest)
