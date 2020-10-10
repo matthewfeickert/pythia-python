@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.7-slim
+ARG BASE_IMAGE=python:3.8-slim
 FROM ${BASE_IMAGE} as base
 
 SHELL [ "/bin/bash", "-c" ]
@@ -22,7 +22,7 @@ RUN apt-get -qq -y update && \
     rm -rf /var/lib/apt-get/lists/*
 
 # Install HepMC
-ARG HEPMC_VERSION=2.06.10
+ARG HEPMC_VERSION=2.06.11
 RUN mkdir /code && \
     cd /code && \
     wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
@@ -43,7 +43,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install FastJet
-ARG FASTJET_VERSION=3.3.3
+ARG FASTJET_VERSION=3.3.4
 RUN mkdir /code && \
     cd /code && \
     wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
@@ -61,7 +61,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install PYTHIA
-ARG PYTHIA_VERSION=8301
+ARG PYTHIA_VERSION=8303
 # PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
@@ -75,9 +75,11 @@ RUN mkdir /code && \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
+      --with-hepmc2 \
+      --with-fastjet3 \
       --with-python-bin=/usr/local/bin \
-      --with-python-lib=/usr/lib/python${PYTHON_MINOR_VERSION} \
-      --with-python-include=/usr/include/python${PYTHON_MINOR_VERSION} && \
+      --with-python-lib=/usr/local/lib/python${PYTHON_MINOR_VERSION} \
+      --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} && \
     make -j$(($(nproc) - 1)) && \
     make install && \
     rm -rf /code
@@ -106,7 +108,7 @@ COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
 COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.7/site-packages/*fastjet* /usr/local/lib/python3.7/site-packages/
+COPY --from=builder /usr/local/lib/python3.8/site-packages/*fastjet* /usr/local/lib/python3.8/site-packages/
 COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
 COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
 COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone
