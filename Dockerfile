@@ -110,13 +110,6 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-# Use C.UTF-8 locale to avoid issues with ASCII encoding
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
-
 # copy HepMC
 COPY --from=builder /usr/local/lib/libHepMC* /usr/local/lib/
 COPY --from=builder /usr/local/include/HepMC /usr/local/include/HepMC
@@ -146,6 +139,13 @@ COPY --from=builder /usr/local/share/Pythia8 /usr/local/share/Pythia8
 
 WORKDIR /home/data
 ENV HOME /home
+
+# Use C.UTF-8 locale to avoid issues with ASCII encoding
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["/bin/bash"]
