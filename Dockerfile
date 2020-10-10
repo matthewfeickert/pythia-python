@@ -75,6 +75,8 @@ RUN mkdir /code && \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
+      --with-hepmc2 \
+      --with-fastjet3 \
       --with-python-bin=/usr/local/bin \
       --with-python-lib=/usr/local/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} && \
