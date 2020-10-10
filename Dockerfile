@@ -118,6 +118,7 @@ COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 # copy LHAPDF
 COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
 COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
+COPY --from=builder /usr/local/lib/python3.8/site-packages/*lhapdf* /usr/local/lib/python3.8/site-packages/
 COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
 COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
 
