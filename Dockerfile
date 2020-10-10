@@ -123,9 +123,10 @@ COPY --from=builder /usr/local/include/HepMC /usr/local/include/HepMC
 COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 
 # copy LHAPDF
-COPY --from=builder /usr/local/lib/liblhapdf* /usr/local/lib/
-COPY --from=builder /usr/local/include/lhapdf /usr/local/include/lhapdf
-COPY --from=builder /usr/local/share/lhapdf /usr/local/share/lhapdf
+COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
+COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
+COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
+COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
 
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
