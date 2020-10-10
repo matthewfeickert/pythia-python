@@ -49,6 +49,11 @@ jobs:
         matthewfeickert/pythia-python:test
         "g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
         wc main42_out.hepmc
+    - name: Test LHAPDF CLI
+      run: >-
+        docker run --rm
+        matthewfeickert/pythia-python:test
+        "lhapdf install CT10nlo"
     - name: Test FastJet
       run: >-
         docker run --rm
