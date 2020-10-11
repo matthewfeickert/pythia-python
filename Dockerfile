@@ -42,6 +42,22 @@ RUN mkdir /code && \
     cmake --build . --target install && \
     rm -rf /code
 
+# Install LHAPDF
+ARG LHAPDF_VERSION=6.3.0
+RUN mkdir /code && \
+    cd /code && \
+    wget https://lhapdf.hepforge.org/downloads/?f=LHAPDF-${LHAPDF_VERSION}.tar.gz -O LHAPDF-${LHAPDF_VERSION}.tar.gz && \
+    tar xvfz LHAPDF-${LHAPDF_VERSION}.tar.gz && \
+    cd LHAPDF-${LHAPDF_VERSION} && \
+    ./configure --help && \
+    export CXX=$(which g++) && \
+    export PYTHON=$(which python) && \
+    ./configure \
+      --prefix=/usr/local && \
+    make -j$(($(nproc) - 1)) && \
+    make install && \
+    rm -rf /code
+
 # Install FastJet
 ARG FASTJET_VERSION=3.3.4
 RUN mkdir /code && \
@@ -76,6 +92,7 @@ RUN mkdir /code && \
       --cxx=g++ \
       --with-gzip \
       --with-hepmc2 \
+      --with-lhapdf6 \
       --with-fastjet3 \
       --with-python-bin=/usr/local/bin \
       --with-python-lib=/usr/local/lib/python${PYTHON_MINOR_VERSION} \
@@ -93,17 +110,17 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-# Use C.UTF-8 locale to avoid issues with ASCII encoding
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
-
 # copy HepMC
 COPY --from=builder /usr/local/lib/libHepMC* /usr/local/lib/
 COPY --from=builder /usr/local/include/HepMC /usr/local/include/HepMC
 COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
+
+# copy LHAPDF
+COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
+COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
+COPY --from=builder /usr/local/lib/python3.8/site-packages/*lhapdf* /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
+COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
 
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
@@ -123,6 +140,13 @@ COPY --from=builder /usr/local/share/Pythia8 /usr/local/share/Pythia8
 
 WORKDIR /home/data
 ENV HOME /home
+
+# Use C.UTF-8 locale to avoid issues with ASCII encoding
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["/bin/bash"]

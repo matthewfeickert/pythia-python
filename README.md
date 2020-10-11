@@ -1,4 +1,4 @@
-# PYTHIA 8 Docker image with Python 3, HepMC, and FastJet
+# PYTHIA 8 Docker image with Python 3 and HEP simulation stack
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/matthewfeickert/pythia-python)](https://hub.docker.com/r/matthewfeickert/pythia-python)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/matthewfeickert/pythia-python/latest)](https://hub.docker.com/r/matthewfeickert/pythia-python/tags?name=latest)
@@ -13,6 +13,7 @@ The Docker image contains:
 
 * Python 3.8
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
+* [LHAPDF](https://lhapdf.hepforge.org/) `v6.3.0`
 * [FastJet](http://fastjet.fr/) `v3.3.4`
 * [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.303`
 
