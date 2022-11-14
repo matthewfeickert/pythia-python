@@ -14,7 +14,7 @@ The Docker image contains:
 * Python 3.9
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
 * [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
-* [FastJet](http://fastjet.fr/) `v3.3.4`
+* [FastJet](http://fastjet.fr/) `v3.4.0`
 * [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.303`
 
 ## Installation
