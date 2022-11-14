@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.8-slim
+ARG BASE_IMAGE=python:3.9-slim-bullseye
 FROM ${BASE_IMAGE} as base
 
 SHELL [ "/bin/bash", "-c" ]
@@ -6,17 +6,17 @@ SHELL [ "/bin/bash", "-c" ]
 FROM base as builder
 RUN apt-get -qq -y update && \
     apt-get -qq -y install \
-        gcc \
-        g++ \
-        zlibc \
-        zlib1g-dev \
-        libbz2-dev \
-        wget \
-        make \
-        cmake \
-        rsync \
-        python3-dev \
-        sudo && \
+      gcc \
+      g++ \
+      zlib1g \
+      zlib1g-dev \
+      libbz2-dev \
+      wget \
+      make \
+      cmake \
+      rsync \
+      python3-dev \
+      sudo && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
@@ -43,7 +43,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install LHAPDF
-ARG LHAPDF_VERSION=6.3.0
+ARG LHAPDF_VERSION=6.5.3
 RUN mkdir /code && \
     cd /code && \
     wget https://lhapdf.hepforge.org/downloads/?f=LHAPDF-${LHAPDF_VERSION}.tar.gz -O LHAPDF-${LHAPDF_VERSION}.tar.gz && \
@@ -59,7 +59,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install FastJet
-ARG FASTJET_VERSION=3.3.4
+ARG FASTJET_VERSION=3.4.0
 RUN mkdir /code && \
     cd /code && \
     wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
@@ -77,15 +77,15 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install PYTHIA
-ARG PYTHIA_VERSION=8303
+ARG PYTHIA_VERSION=8307
 # PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
-    wget http://home.thep.lu.se/~torbjorn/pythia8/pythia${PYTHIA_VERSION}.tgz && \
+    wget --quiet "https://pythia.org/download/pythia${PYTHIA_VERSION:0:2}/pythia${PYTHIA_VERSION}.tgz" && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
-    export PYTHON_MINOR_VERSION=${PYTHON_VERSION::-2} && \
+    export PYTHON_MINOR_VERSION=${PYTHON_VERSION::3} && \
     ./configure \
       --prefix=/usr/local \
       --arch=Linux \
@@ -118,14 +118,14 @@ COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 # copy LHAPDF
 COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
 COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.8/site-packages/*lhapdf* /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/lib/python3.9/site-packages/*lhapdf* /usr/local/lib/python3.9/site-packages/
 COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
 COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
 
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
 COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.8/site-packages/*fastjet* /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/lib/python3.9/site-packages/*fastjet* /usr/local/lib/python3.9/site-packages/
 COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
 COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
 COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone

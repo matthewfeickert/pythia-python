@@ -11,11 +11,11 @@
 
 The Docker image contains:
 
-* Python 3.8
+* Python 3.9
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
-* [LHAPDF](https://lhapdf.hepforge.org/) `v6.3.0`
-* [FastJet](http://fastjet.fr/) `v3.3.4`
-* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.303`
+* [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
+* [FastJet](http://fastjet.fr/) `v3.4.0`
+* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.307`
 
 ## Installation
 
@@ -23,7 +23,7 @@ The Docker image contains:
 - Use `docker pull` to pull down the image corresponding to the tag. For example:
 
 ```
-docker pull matthewfeickert/pythia-python:pythia8.303
+docker pull matthewfeickert/pythia-python:pythia8.307
 ```
 
 ## Use
@@ -31,14 +31,14 @@ docker pull matthewfeickert/pythia-python:pythia8.303
 You can either use the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.303 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.307 \
   "python tests/main01.py > main01_out_py.txt"
 ```
 
 or the original C++
 
 ```
-docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.303 \
+docker run --rm -v $PWD:$PWD -w $PWD matthewfeickert/pythia-python:pythia8.307 \
   "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
 ```
 
