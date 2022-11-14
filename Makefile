@@ -7,7 +7,7 @@ image:
 	-f Dockerfile \
 	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
-	--build-arg LHAPDF_VERSION=6.3.0 \
+	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.3.4 \
 	--build-arg PYTHIA_VERSION=8303 \
 	--tag matthewfeickert/pythia-python:pythia8.303 \
