@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.8-slim
+ARG BASE_IMAGE=python:3.9-slim
 FROM ${BASE_IMAGE} as base
 
 SHELL [ "/bin/bash", "-c" ]
@@ -118,14 +118,14 @@ COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
 # copy LHAPDF
 COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
 COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.8/site-packages/*lhapdf* /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/lib/python3.9/site-packages/*lhapdf* /usr/local/lib/python3.9/site-packages/
 COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
 COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
 
 # copy FastJet
 COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
 COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.8/site-packages/*fastjet* /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/lib/python3.9/site-packages/*fastjet* /usr/local/lib/python3.9/site-packages/
 COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
 COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
 COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone
