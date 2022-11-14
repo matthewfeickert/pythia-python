@@ -6,17 +6,17 @@ SHELL [ "/bin/bash", "-c" ]
 FROM base as builder
 RUN apt-get -qq -y update && \
     apt-get -qq -y install \
-        gcc \
-        g++ \
-        zlibc \
-        zlib1g-dev \
-        libbz2-dev \
-        wget \
-        make \
-        cmake \
-        rsync \
-        python3-dev \
-        sudo && \
+      gcc \
+      g++ \
+      zlib1g \
+      zlib1g-dev \
+      libbz2-dev \
+      wget \
+      make \
+      cmake \
+      rsync \
+      python3-dev \
+      sudo && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
