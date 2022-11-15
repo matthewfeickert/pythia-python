@@ -74,14 +74,12 @@ RUN mkdir /code && \
     cd fastjet-${FASTJET_VERSION} && \
     ./configure --help && \
     export CXX=$(which g++) && \
-    export PYTHON=$(command -v python) && \
-    export PYTHON_CONFIG=$(find /usr/local/ -iname "python-config.py") && \
     ./configure \
-      --prefix=/usr/local/venv \
-      --enable-pyext=yes && \
+      --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
     make check && \
     make install && \
+    python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
     rm -rf /code
 
 # Install PYTHIA
@@ -114,6 +112,9 @@ RUN mkdir /code && \
 
 FROM base
 
+# copy from builder
+COPY --from=builder /usr/local/venv /usr/local/venv
+
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
     apt-get -qq -y install --no-install-recommends \
@@ -133,9 +134,6 @@ RUN apt-get -qq -y update && \
     printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
     cp /root/.bashrc /etc/.bashrc && \
     echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile
-
-# copy from builder
-COPY --from=builder /usr/local/venv /usr/local/venv
 
 WORKDIR /home/data
 ENV HOME /home
