@@ -95,17 +95,20 @@ RUN mkdir /code && \
     ./configure --help && \
     export PYTHON_MINOR_VERSION=${PYTHON_VERSION::3} && \
     ./configure \
-      --prefix=/usr/local \
+      --prefix=/usr/local/venv \
       --arch=Linux \
       --cxx=g++ \
+      --enable-64bit \
       --with-gzip \
       --with-hepmc2=/usr/local/venv \
       --with-lhapdf6=/usr/local/venv \
       --with-fastjet3=/usr/local/venv \
       --with-python-bin=/usr/local/venv/bin/ \
       --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
-      --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} && \
-    make -j$(($(nproc) - 1)) && \
+      --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
+      --cxx-common="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17" \
+      --cxx-shared="-shared -std=c++17" && \
+    make -j$(nproc --ignore=1) && \
     make install && \
     rm -rf /code
 
