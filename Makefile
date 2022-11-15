@@ -40,3 +40,11 @@ test_hepmc:
 		-w $(shell pwd) \
 		matthewfeickert/pythia-python:latest \
 		'g++ tests/main42.cc -pthread -o tests/main42 $$(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc'
+
+test_fastjet:
+	docker run \
+		--rm \
+		-v $(shell pwd):$(shell pwd) \
+		-w $(shell pwd) \
+		matthewfeickert/pythia-python:latest \
+        'g++ tests/test_FastJet.cc -o tests/test_FastJet $$(/usr/local/venv/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet'
