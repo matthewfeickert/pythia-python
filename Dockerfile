@@ -25,7 +25,7 @@ RUN apt-get -qq -y update && \
     rm -rf /var/lib/apt/lists/* && \
     python -m venv /usr/local/venv && \
     . /usr/local/venv/bin/activate && \
-    python -m pip --no-cache-dir install pip setuptools wheel && \
+    python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
     python -m pip list
 
 # Install HepMC
@@ -113,6 +113,8 @@ RUN mkdir /code && \
     rm -rf /code
 
 FROM base
+
+ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
     apt-get -qq -y install \
         g++ \
