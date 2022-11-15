@@ -116,12 +116,20 @@ FROM base
 
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
-    apt-get -qq -y install \
-        g++ \
-        make && \
+    apt-get -qq -y install --no-install-recommends \
+      gcc \
+      g++ \
+      zlib1g \
+      zlib1g-dev \
+      libbz2-dev \
+      wget \
+      make \
+      cmake \
+      rsync \
+      python3-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
-    rm -rf /var/lib/apt-get/lists/*
+    rm -rf /var/lib/apt/lists/*
 
 # copy from builder
 COPY --from=builder /usr/local/venv /usr/local/venv
