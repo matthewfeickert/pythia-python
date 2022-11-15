@@ -112,6 +112,8 @@ RUN mkdir /code && \
 
 FROM base
 
+SHELL [ "/bin/bash", "-c" ]
+
 # copy from builder
 COPY --from=builder /usr/local/venv /usr/local/venv
 
