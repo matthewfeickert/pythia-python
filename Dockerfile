@@ -129,17 +129,16 @@ RUN apt-get -qq -y update && \
       python3-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
+    cp /root/.bashrc /etc/.bashrc && \
+    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile
 
 # copy from builder
 COPY --from=builder /usr/local/venv /usr/local/venv
 
 WORKDIR /home/data
 ENV HOME /home
-
-RUN printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
-    cp /root/.bashrc /etc/.bashrc && \
-    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile
 
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
