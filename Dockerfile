@@ -5,6 +5,7 @@ SHELL [ "/bin/bash", "-c" ]
 
 FROM base as builder
 
+ARG FASTJET_VERSION=3.4.0
 # Set PATH to pickup virtualenv by default
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
@@ -26,6 +27,7 @@ RUN apt-get -qq -y update && \
     python -m venv /usr/local/venv && \
     . /usr/local/venv/bin/activate && \
     python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
+    python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
     python -m pip list
 
 # Install HepMC
@@ -65,25 +67,6 @@ RUN mkdir /code && \
     make install && \
     rm -rf /code
 
-# Install FastJet
-ARG FASTJET_VERSION=3.4.0
-RUN mkdir /code && \
-    cd /code && \
-    wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
-    tar xvfz fastjet-${FASTJET_VERSION}.tar.gz && \
-    cd fastjet-${FASTJET_VERSION} && \
-    ./configure --help && \
-    export CXX=$(which g++) && \
-    export PYTHON=$(command -v python) && \
-    export PYTHON_CONFIG=$(find /usr/local/ -iname "python-config.py") && \
-    ./configure \
-      --prefix=/usr/local/venv \
-      --enable-pyext=yes && \
-    make -j$(nproc --ignore=1) && \
-    make check && \
-    make install && \
-    rm -rf /code
-
 # Install PYTHIA
 ARG PYTHIA_VERSION=8307
 # PYTHON_VERSION already exists in the base image
@@ -102,7 +85,7 @@ RUN mkdir /code && \
       --with-gzip \
       --with-hepmc2=/usr/local/venv \
       --with-lhapdf6=/usr/local/venv \
-      --with-fastjet3=/usr/local/venv \
+      --with-fastjet3=$(find /usr/local/venv/ -type d -iname "_fastjet_core") \
       --with-python-bin=/usr/local/venv/bin/ \
       --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
@@ -113,6 +96,9 @@ RUN mkdir /code && \
     rm -rf /code
 
 FROM base
+
+# copy from builder
+COPY --from=builder /usr/local/venv /usr/local/venv
 
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
@@ -132,10 +118,8 @@ RUN apt-get -qq -y update && \
     rm -rf /var/lib/apt/lists/* && \
     printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
     cp /root/.bashrc /etc/.bashrc && \
-    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile
-
-# copy from builder
-COPY --from=builder /usr/local/venv /usr/local/venv
+    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile && \
+    ln --symbolic $(find /usr/local/venv/ -type f -iname "fastjet-config") /venv/bin/
 
 WORKDIR /home/data
 ENV HOME /home
