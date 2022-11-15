@@ -165,9 +165,6 @@ RUN apt-get -qq -y update && \
     chmod -R 777 /usr/local/venv && \
     echo "SHELL=/bin/bash" >> /etc/environment
 
-WORKDIR /home/data
-ENV HOME /home
-
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
