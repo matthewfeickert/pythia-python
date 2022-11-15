@@ -19,7 +19,7 @@ RUN apt-get -qq -y update && \
       cmake \
       rsync \
       python3-dev \
-      sudo && \
+      libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* && \
@@ -127,7 +127,8 @@ RUN apt-get -qq -y update && \
       make \
       cmake \
       rsync \
-      python3-dev && \
+      python3-dev \
+      libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* && \
