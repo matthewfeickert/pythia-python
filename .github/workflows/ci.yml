@@ -31,7 +31,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        "g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt";
+        "g++ tests/main01.cc -pthread -o tests/main01 \$(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt";
         wc main01_out_cpp.txt
     - name: Run test program in Python
       run: >-
@@ -47,7 +47,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        "g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
+        "g++ tests/main42.cc -pthread -o tests/main42 \$(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
         wc main42_out.hepmc
     - name: Test LHAPDF CLI
       run: >-
@@ -60,7 +60,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
+        "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/venv/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
     - name: Test FastJet Python
       run: >-
         docker run --rm
