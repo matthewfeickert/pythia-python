@@ -5,7 +5,6 @@ SHELL [ "/bin/bash", "-c" ]
 
 FROM base as builder
 
-ARG FASTJET_VERSION=3.4.0
 # Set PATH to pickup virtualenv by default
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
@@ -27,7 +26,6 @@ RUN apt-get -qq -y update && \
     python -m venv /usr/local/venv && \
     . /usr/local/venv/bin/activate && \
     python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
-    python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
     python -m pip list
 
 # Install HepMC
@@ -67,6 +65,23 @@ RUN mkdir /code && \
     make install && \
     rm -rf /code
 
+# Install FastJet
+ARG FASTJET_VERSION=3.4.0
+RUN mkdir /code && \
+    cd /code && \
+    wget http://fastjet.fr/repo/fastjet-${FASTJET_VERSION}.tar.gz && \
+    tar xvfz fastjet-${FASTJET_VERSION}.tar.gz && \
+    cd fastjet-${FASTJET_VERSION} && \
+    ./configure --help && \
+    export CXX=$(which g++) && \
+    ./configure \
+      --prefix=/usr/local/venv && \
+    make -j$(nproc --ignore=1) && \
+    make check && \
+    make install && \
+    python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
+    rm -rf /code
+
 # Install PYTHIA
 ARG PYTHIA_VERSION=8307
 # PYTHON_VERSION already exists in the base image
@@ -85,7 +100,7 @@ RUN mkdir /code && \
       --with-gzip \
       --with-hepmc2=/usr/local/venv \
       --with-lhapdf6=/usr/local/venv \
-      --with-fastjet3=$(find /usr/local/venv/ -type d -iname "_fastjet_core") \
+      --with-fastjet3=/usr/local/venv \
       --with-python-bin=/usr/local/venv/bin/ \
       --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
