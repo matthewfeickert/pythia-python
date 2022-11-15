@@ -31,14 +31,22 @@ docker pull matthewfeickert/pythia-python:pythia8.307
 You can either use the image as "`PYTHIA` as a service", as demoed here with the test script in the repo using the Python bindings
 
 ```
-docker run --rm -v $PWD:/work matthewfeickert/pythia-python:pythia8.307 \
-  "python tests/main01.py > main01_out_py.txt"
+docker run \
+  --rm \
+  --user $(id --user $USER):$(id --group) \
+  --volume $PWD:/work \
+  matthewfeickert/pythia-python:pythia8.307 \
+  'python tests/main01.py > main01_out_py.txt'
 ```
 
 or the original C++
 
 ```
-docker run --rm -v $PWD:/work matthewfeickert/pythia-python:pythia8.307 \
+docker run \
+  --rm \
+  --user $(id --user $USER):$(id --group) \
+  --volume $PWD:/work \
+  matthewfeickert/pythia-python:pythia8.307 \
   'g++ tests/main01.cc -o tests/main01 $(pythia8-config --ldflags); ./tests/main01 > main01_out_cpp.txt'
 ```
 
