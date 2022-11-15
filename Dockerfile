@@ -74,11 +74,12 @@ RUN mkdir /code && \
     cd fastjet-${FASTJET_VERSION} && \
     ./configure --help && \
     export CXX=$(which g++) && \
-    export PYTHON=$(which python) && \
+    export PYTHON=$(command -v python) && \
+    export PYTHON_CONFIG=$(find /usr/local/ -iname "python-config.py") && \
     ./configure \
       --prefix=/usr/local/venv \
       --enable-pyext=yes && \
-    make -j$(($(nproc) - 1)) && \
+    make -j$(nproc --ignore=1) && \
     make check && \
     make install && \
     rm -rf /code
