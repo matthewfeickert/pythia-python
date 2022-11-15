@@ -60,7 +60,7 @@ jobs:
         -v $PWD:$PWD
         -w $PWD
         matthewfeickert/pythia-python:test
-        "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
+        "g++ tests/test_FastJet.cc -o tests/test_FastJet \$(/usr/local/venv/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet"
     - name: Test FastJet Python
       run: >-
         docker run --rm
