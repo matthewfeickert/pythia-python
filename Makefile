@@ -2,9 +2,31 @@ default: image
 
 all: image
 
+multi_platform:
+	docker pull python:3.9-slim-bullseye
+	docker buildx create \
+		--name buildx_builder \
+		--driver docker-container \
+		--bootstrap \
+		--use
+	docker buildx build \
+	--file Dockerfile \
+	--platform linux/amd64,linux/arm64 \
+	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
+	--build-arg HEPMC_VERSION=2.06.11 \
+	--build-arg LHAPDF_VERSION=6.5.3 \
+	--build-arg FASTJET_VERSION=3.4.0 \
+	--build-arg PYTHIA_VERSION=8307 \
+	--tag matthewfeickert/pythia-python:pythia8.307 \
+	--tag matthewfeickert/pythia-python:latest \
+	--push \
+	.
+	docker buildx stop buildx_builder
+	docker buildx rm buildx_builder
+
 image:
-	docker build . \
-	-f Dockerfile \
+	docker buildx build . \
+	--file Dockerfile \
 	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
@@ -12,7 +34,7 @@ image:
 	--build-arg PYTHIA_VERSION=8307 \
 	--tag matthewfeickert/pythia-python:pythia8.307 \
 	--tag matthewfeickert/pythia-python:pythia8.307-hepmc2.06.11-fastjet3.4.0-python3.9 \
-	--tag matthewfeickert/pythia-python:latest
+	--tag matthewfeickert/pythia-python:local-latest
 
 run:
 	docker run --rm -it matthewfeickert/pythia-python:latest
