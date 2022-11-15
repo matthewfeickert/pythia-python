@@ -23,7 +23,7 @@ test:
 		-v $(shell pwd):$(shell pwd) \
 		-w $(shell pwd) \
 		matthewfeickert/pythia-python:latest \
-		"g++ tests/main01.cc -o tests/main01 -lpythia8 -ldl; ./tests/main01 > main01_out_cpp.txt"
+		'g++ tests/main01.cc -pthread -o tests/main01 $(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt'
 	wc main01_out_cpp.txt
 	docker run \
 		--rm \
@@ -39,4 +39,4 @@ test_hepmc:
 		-v $(shell pwd):$(shell pwd) \
 		-w $(shell pwd) \
 		matthewfeickert/pythia-python:latest \
-		"g++ tests/main42.cc -o tests/main42 -lpythia8 -lHepMC -ldl; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
+		"g++ tests/main42.cc -pthread -o tests/main42 $(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc"
