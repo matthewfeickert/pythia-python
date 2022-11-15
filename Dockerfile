@@ -117,33 +117,8 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt-get/lists/*
 
-# copy HepMC
-COPY --from=builder /usr/local/lib/libHepMC* /usr/local/lib/
-COPY --from=builder /usr/local/include/HepMC /usr/local/include/HepMC
-COPY --from=builder /usr/local/share/HepMC /usr/local/share/HepMC
-
-# copy LHAPDF
-COPY --from=builder /usr/local/bin/lhapdf* /usr/local/bin/
-COPY --from=builder /usr/local/lib/libLHAPDF* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.9/site-packages/*lhapdf* /usr/local/lib/python3.9/site-packages/
-COPY --from=builder /usr/local/include/LHAPDF /usr/local/include/LHAPDF
-COPY --from=builder /usr/local/share/LHAPDF /usr/local/share/LHAPDF
-
-# copy FastJet
-COPY --from=builder /usr/local/bin/fastjet-config /usr/local/bin/
-COPY --from=builder /usr/local/lib/libfastjet* /usr/local/lib/
-COPY --from=builder /usr/local/lib/python3.9/site-packages/*fastjet* /usr/local/lib/python3.9/site-packages/
-COPY --from=builder /usr/local/lib/libsiscone* /usr/local/lib/
-COPY --from=builder /usr/local/include/fastjet /usr/local/include/fastjet
-COPY --from=builder /usr/local/include/siscone /usr/local/include/siscone
-
-# copy PYTHIA
-COPY --from=builder /usr/local/bin/pythia8-config /usr/local/bin/
-COPY --from=builder /usr/local/lib/libpythia8* /usr/local/lib/
-COPY --from=builder /usr/local/lib/pythia8.so /usr/local/lib/
-COPY --from=builder /usr/local/include/Pythia8 /usr/local/include/Pythia8
-COPY --from=builder /usr/local/include/Pythia8Plugins /usr/local/include/Pythia8Plugins
-COPY --from=builder /usr/local/share/Pythia8 /usr/local/share/Pythia8
+# copy from builder
+COPY --from=builder /usr/local/venv /usr/local/venv
 
 WORKDIR /home/data
 ENV HOME /home
