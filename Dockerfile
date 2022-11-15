@@ -35,8 +35,6 @@ RUN mkdir /code && \
     wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
     tar xvfz hepmc${HEPMC_VERSION}.tgz && \
     mv HepMC-${HEPMC_VERSION} src && \
-    mkdir build && \
-    cd build && \
     cmake \
       -DCMAKE_CXX_COMPILER=$(which g++) \
       -DCMAKE_BUILD_TYPE=Release \
@@ -44,9 +42,11 @@ RUN mkdir /code && \
       -Dmomentum:STRING=MEV \
       -Dlength:STRING=MM \
       -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
-      ../src && \
-    cmake --build . -- -j$(($(nproc) - 1)) && \
-    cmake --build . --target install && \
+      -S src \
+      -B build && \
+    cmake build -L && \
+    cmake --build build --parallel $(nproc --ignore=1) && \
+    cmake --build build --target install && \
     rm -rf /code
 
 # Install LHAPDF
@@ -61,7 +61,7 @@ RUN mkdir /code && \
     export PYTHON=$(which python) && \
     ./configure \
       --prefix=/usr/local/venv && \
-    make -j$(($(nproc) - 1)) && \
+    make -j$(nproc --ignore=1) && \
     make install && \
     rm -rf /code
 
