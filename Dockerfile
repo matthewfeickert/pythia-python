@@ -4,6 +4,9 @@ FROM ${BASE_IMAGE} as base
 SHELL [ "/bin/bash", "-c" ]
 
 FROM base as builder
+
+# Set PATH to pickup virtualenv by default
+ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
     apt-get -qq -y install \
       gcc \
@@ -19,7 +22,11 @@ RUN apt-get -qq -y update && \
       sudo && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
-    rm -rf /var/lib/apt-get/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    python -m venv /usr/local/venv && \
+    . /usr/local/venv/bin/activate && \
+    python -m pip --no-cache-dir install pip setuptools wheel && \
+    python -m pip list
 
 # Install HepMC
 ARG HEPMC_VERSION=2.06.11
@@ -36,7 +43,7 @@ RUN mkdir /code && \
       -Dbuild_docs:BOOL=OFF \
       -Dmomentum:STRING=MEV \
       -Dlength:STRING=MM \
-      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
       ../src && \
     cmake --build . -- -j$(($(nproc) - 1)) && \
     cmake --build . --target install && \
@@ -53,7 +60,7 @@ RUN mkdir /code && \
     export CXX=$(which g++) && \
     export PYTHON=$(which python) && \
     ./configure \
-      --prefix=/usr/local && \
+      --prefix=/usr/local/venv && \
     make -j$(($(nproc) - 1)) && \
     make install && \
     rm -rf /code
@@ -69,7 +76,7 @@ RUN mkdir /code && \
     export CXX=$(which g++) && \
     export PYTHON=$(which python) && \
     ./configure \
-      --prefix=/usr/local \
+      --prefix=/usr/local/venv \
       --enable-pyext=yes && \
     make -j$(($(nproc) - 1)) && \
     make check && \
@@ -91,11 +98,11 @@ RUN mkdir /code && \
       --arch=Linux \
       --cxx=g++ \
       --with-gzip \
-      --with-hepmc2 \
-      --with-lhapdf6 \
-      --with-fastjet3 \
-      --with-python-bin=/usr/local/bin \
-      --with-python-lib=/usr/local/lib/python${PYTHON_MINOR_VERSION} \
+      --with-hepmc2=/usr/local/venv \
+      --with-lhapdf6=/usr/local/venv \
+      --with-fastjet3=/usr/local/venv \
+      --with-python-bin=/usr/local/venv/bin/ \
+      --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} && \
     make -j$(($(nproc) - 1)) && \
     make install && \
@@ -144,9 +151,9 @@ ENV HOME /home
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-ENV PYTHONPATH=/usr/local/lib:$PYTHONPATH
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-ENV PYTHIA8DATA=/usr/local/share/Pythia8/xmldoc
+ENV PYTHONPATH=/usr/local/venv/lib:$PYTHONPATH
+ENV LD_LIBRARY_PATH=/usr/local/venv/lib:$LD_LIBRARY_PATH
+ENV PYTHIA8DATA=/usr/local/venv/share/Pythia8/xmldoc
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["/bin/bash"]
