@@ -119,7 +119,7 @@ RUN apt-get -qq -y update && \
     printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
     cp /root/.bashrc /etc/.bashrc && \
     echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile && \
-    ln --symbolic $(find /usr/local/venv/ -type f -iname "fastjet-config") /venv/bin/
+    ln --symbolic $(find /usr/local/venv/ -type f -iname "fastjet-config") /usr/local/venv/bin/
 
 WORKDIR /home/data
 ENV HOME /home
