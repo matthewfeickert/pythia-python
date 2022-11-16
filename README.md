@@ -15,7 +15,7 @@ The Docker image contains:
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
 * [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
 * [FastJet](http://fastjet.fr/) `v3.4.0`
-* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.307`
+* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.245`
 
 ## Installation
 
@@ -23,7 +23,7 @@ The Docker image contains:
 - Use `docker pull` to pull down the image corresponding to the tag. For example:
 
 ```
-docker pull matthewfeickert/pythia-python:pythia8.307
+docker pull matthewfeickert/pythia-python:pythia8.245
 ```
 
 ## Use
@@ -35,7 +35,7 @@ docker run \
   --rm \
   --user $(id --user $USER):$(id --group) \
   --volume $PWD:/work \
-  matthewfeickert/pythia-python:pythia8.307 \
+  matthewfeickert/pythia-python:pythia8.245 \
   'python tests/main01.py > main01_out_py.txt'
 ```
 
@@ -46,7 +46,7 @@ docker run \
   --rm \
   --user $(id --user $USER):$(id --group) \
   --volume $PWD:/work \
-  matthewfeickert/pythia-python:pythia8.307 \
+  matthewfeickert/pythia-python:pythia8.245 \
   'g++ tests/main01.cc -o tests/main01 $(pythia8-config --ldflags); ./tests/main01 > main01_out_cpp.txt'
 ```
 
