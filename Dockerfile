@@ -171,6 +171,7 @@ RUN apt-get -qq -y update && \
       cmake \
       rsync \
       git \
+      curl \
       python3-dev \
       libboost-all-dev && \
     apt-get -y autoclean && \
