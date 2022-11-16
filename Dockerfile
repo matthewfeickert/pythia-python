@@ -1,6 +1,8 @@
 ARG BASE_IMAGE=python:3.9-slim-bullseye
 FROM ${BASE_IMAGE} as base
 
+ARG TARGETARCH
+
 SHELL [ "/bin/bash", "-c" ]
 
 FROM base as builder
@@ -92,6 +94,14 @@ RUN mkdir /code && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
     export PYTHON_MINOR_VERSION=${PYTHON_VERSION::3} && \
+    if [[ "${TARGETARCH}" == "amd64" ]]; then \
+        export CXX_COMMON="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17"; \
+    elif [[ "${TARGETARCH}" == "arm64" ]]; then \
+        export CXX_COMMON="-O2 -pedantic -W -Wall -Wshadow -fPIC -std=c++17"; \
+    else \
+      echo "TARGETARCH ${TARGETARCH} not supported. Exiting now."; \
+      exit -1; \
+    fi && \
     ./configure \
       --prefix=/usr/local/venv \
       --arch=Linux \
@@ -104,10 +114,11 @@ RUN mkdir /code && \
       --with-python-bin=/usr/local/venv/bin/ \
       --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
-      --cxx-common="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17" \
+      --cxx-common="${CXX_COMMON}" \
       --cxx-shared="-shared -std=c++17" && \
     make -j$(nproc --ignore=1) && \
     make install && \
+    unset CXX_COMMON && \
     rm -rf /code
 
 FROM base
