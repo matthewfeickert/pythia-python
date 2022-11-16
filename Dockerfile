@@ -21,6 +21,7 @@ RUN apt-get -qq -y update && \
       make \
       cmake \
       rsync \
+      git \
       libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
