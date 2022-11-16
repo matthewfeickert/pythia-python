@@ -20,15 +20,15 @@ run:
 test:
 	docker run \
 		--rm \
-		-v $(shell pwd):$(shell pwd) \
-		-w $(shell pwd) \
+		--user $(shell id --user $(USER)):$(shell id --group) \
+		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
 		'g++ tests/main01.cc -pthread -o tests/main01 $$(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt'
 	wc main01_out_cpp.txt
 	docker run \
 		--rm \
-		-v $(shell pwd):$(shell pwd) \
-		-w $(shell pwd) \
+		--user $(shell id --user $(USER)):$(shell id --group) \
+		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
 		"python tests/main01.py > main01_out_py.txt"
 	wc main01_out_py.txt
@@ -36,15 +36,15 @@ test:
 test_hepmc:
 	docker run \
 		--rm \
-		-v $(shell pwd):$(shell pwd) \
-		-w $(shell pwd) \
+		--user $(shell id --user $(USER)):$(shell id --group) \
+		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
 		'g++ tests/main42.cc -pthread -o tests/main42 $$(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc'
 
 test_fastjet:
 	docker run \
 		--rm \
-		-v $(shell pwd):$(shell pwd) \
-		-w $(shell pwd) \
+		--user $(shell id --user $(USER)):$(shell id --group) \
+		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
-        'g++ tests/test_FastJet.cc -o tests/test_FastJet $$(/usr/local/venv/bin/fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet'
+        'g++ tests/test_FastJet.cc -o tests/test_FastJet $$(fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet'

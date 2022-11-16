@@ -112,8 +112,25 @@ RUN mkdir /code && \
 
 FROM base
 
+SHELL [ "/bin/bash", "-c" ]
+
 # copy from builder
 COPY --from=builder /usr/local/venv /usr/local/venv
+
+# Create non-root user "docker"
+RUN useradd --shell /bin/bash -m docker && \
+   cp /root/.bashrc /home/docker/ && \
+   chown -R --from=root docker /home/docker && \
+   chown -R --from=root docker /usr/local/venv
+
+# Use C.UTF-8 locale to avoid issues with ASCII encoding
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+ENV PATH=/home/docker/.local/bin:${PATH}
+
+ENV HOME /work
+WORKDIR ${HOME}/
 
 ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN apt-get -qq -y update && \
@@ -134,10 +151,21 @@ RUN apt-get -qq -y update && \
     rm -rf /var/lib/apt/lists/* && \
     printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
     cp /root/.bashrc /etc/.bashrc && \
-    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile
-
-WORKDIR /home/data
-ENV HOME /home
+    echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile && \
+    mkdir -p \
+        /.local \
+        /.jupyter \
+        /.config \
+        /.cache \
+        /work && \
+    chmod -R 777 \
+        /.local \
+        /.jupyter \
+        /.config \
+        /.cache \
+        /work && \
+    chmod -R 777 /usr/local/venv && \
+    echo "SHELL=/bin/bash" >> /etc/environment
 
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
@@ -145,6 +173,8 @@ ENV LANG=C.UTF-8
 ENV PYTHONPATH=/usr/local/venv/lib:$PYTHONPATH
 ENV LD_LIBRARY_PATH=/usr/local/venv/lib:$LD_LIBRARY_PATH
 ENV PYTHIA8DATA=/usr/local/venv/share/Pythia8/xmldoc
+
+USER docker
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["/bin/bash"]
