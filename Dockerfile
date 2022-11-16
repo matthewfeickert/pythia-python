@@ -70,6 +70,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install FastJet
+# c.f. https://github.com/scikit-hep/fastjet/tree/d87d56bec13c76ef2911705140cd6d8cd9e1fc7a#build-dependencies
 ARG FASTJET_VERSION=3.4.0
 RUN mkdir /code && \
     cd /code && \
@@ -83,6 +84,19 @@ RUN mkdir /code && \
     make -j$(nproc --ignore=1) && \
     make check && \
     make install && \
+    if [[ "${TARGETARCH}" == "arm64" ]]; then \
+        apt-get -qq -y update && \
+        apt-get -qq -y install \
+          libboost-dev \
+          libmpfr-dev \
+          libgmp-dev \
+          swig \
+          autoconf \
+          libtool && \
+        apt-get -y autoclean && \
+        apt-get -y autoremove && \
+        rm -rf /var/lib/apt/lists/* ; \
+    fi && \
     python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
     rm -rf /code
 
