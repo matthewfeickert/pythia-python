@@ -14,7 +14,7 @@ multi_platform:
 	--platform linux/amd64,linux/arm64 \
 	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
-	--build-arg LHAPDF_VERSION=6.5.0 \
+	--build-arg LHAPDF_VERSION=6.4.0 \
 	--build-arg FASTJET_VERSION=3.4.0 \
 	--build-arg PYTHIA_VERSION=8245 \
 	--tag matthewfeickert/pythia-python:pythia8.245 \
@@ -28,7 +28,7 @@ image:
 	--file Dockerfile \
 	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
-	--build-arg LHAPDF_VERSION=6.5.0 \
+	--build-arg LHAPDF_VERSION=6.4.0 \
 	--build-arg FASTJET_VERSION=3.4.0 \
 	--build-arg PYTHIA_VERSION=8245 \
 	--tag matthewfeickert/pythia-python:pythia8.245 \
