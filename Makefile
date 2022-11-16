@@ -3,7 +3,7 @@ default: image
 all: image
 
 multi_platform:
-	docker pull python:3.9-slim-bullseye
+	docker pull python:3.8-slim-bullseye
 	docker buildx create \
 		--name buildx_builder \
 		--driver docker-container \
@@ -12,7 +12,7 @@ multi_platform:
 	docker buildx build \
 	--file Dockerfile \
 	--platform linux/amd64,linux/arm64 \
-	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
+	--build-arg BASE_IMAGE=python:3.8-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.4.0 \
@@ -26,7 +26,7 @@ multi_platform:
 image:
 	docker buildx build . \
 	--file Dockerfile \
-	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
+	--build-arg BASE_IMAGE=python:3.8-slim-bullseye \
 	--build-arg HEPMC_VERSION=2.06.11 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.4.0 \
