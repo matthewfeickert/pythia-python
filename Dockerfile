@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.9-slim-bullseye
+ARG BASE_IMAGE=python:3.10-slim-bullseye
 FROM ${BASE_IMAGE} as base
 
 ARG TARGETARCH
