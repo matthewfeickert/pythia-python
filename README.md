@@ -5,7 +5,7 @@
 
 > PYTHIA is a program for the generation of high-energy physics events, i.e. for the description of collisions at high energies between elementary particles such as e+, e-, p and pbar in various combinations.
 
-`PYTHIA` 8's source is [distributed on GitLab](https://gitlab.com/Pythia8/releases) and is a product of the [`PYTHIA` development team](http://home.thep.lu.se/~torbjorn/Pythia.html).
+`PYTHIA` 8's source is [distributed on GitLab](https://gitlab.com/Pythia8/releases) and is a product of the [`PYTHIA` development team](https://pythia.org/).
 
 ## Distributed Software
 
@@ -15,7 +15,7 @@ The Docker image contains:
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
 * [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
 * [FastJet](http://fastjet.fr/) `v3.4.0`
-* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.245`
+* [PYTHIA](https://pythia.org/) `v8.245`
 
 ## Installation
 
