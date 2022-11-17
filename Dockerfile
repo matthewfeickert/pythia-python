@@ -102,47 +102,11 @@ RUN mkdir /code && \
 # Install PYTHIA
 ARG PYTHIA_VERSION=8244
 # PYTHON_VERSION already exists in the base image
-# RUN mkdir /code && \
-#     cd /code && \
-#     wget --quiet "https://pythia.org/download/pythia${PYTHIA_VERSION:0:2}/pythia${PYTHIA_VERSION}.tgz" && \
-#     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
-#     cd pythia${PYTHIA_VERSION} && \
-#     ./configure --help && \
-#     export PYTHON_MINOR_VERSION="${PYTHON_VERSION%.*}" && \
-#     if [[ "${TARGETARCH}" == "amd64" ]]; then \
-#         export CXX_COMMON="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17"; \
-#     elif [[ "${TARGETARCH}" == "arm64" ]]; then \
-#         export CXX_COMMON="-O2 -pedantic -W -Wall -Wshadow -fPIC -std=c++17"; \
-#     else \
-#       echo "TARGETARCH ${TARGETARCH} not supported. Exiting now."; \
-#       exit -1; \
-#     fi && \
-#     ./configure \
-#       --prefix=/usr/local/venv \
-#       --arch=Linux \
-#       --cxx=g++ \
-#       --enable-64bit \
-#       --with-boost \
-#       --with-gzip \
-#       --with-hepmc2=/usr/local/venv \
-#       --with-lhapdf6=/usr/local/venv \
-#       --with-fastjet3=/usr/local/venv \
-#       --with-python-bin=/usr/local/venv/bin/ \
-#       --with-python-lib=/usr/local/venv/lib/python${PYTHON_MINOR_VERSION} \
-#       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
-#       --cxx-common="${CXX_COMMON}" \
-#       --cxx-shared="-shared -std=c++17" && \
-#     make -j$(nproc --ignore=1) && \
-#     make install && \
-#     unset CXX_COMMON && \
-#     rm -rf /code
 RUN mkdir /code && \
     cd /code && \
-    git clone https://gitlab.com/Pythia8/releases.git \
-      --branch "pythia${PYTHIA_VERSION}" \
-      --single-branch \
-      pythia_src && \
-    cd pythia_src && \
+    wget --quiet "https://pythia.org/download/pythia${PYTHIA_VERSION:0:2}/pythia${PYTHIA_VERSION}.tgz" && \
+    tar xvfz pythia${PYTHIA_VERSION}.tgz && \
+    cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
     export PYTHON_MINOR_VERSION="${PYTHON_VERSION%.*}" && \
     if [[ "${TARGETARCH}" == "amd64" ]]; then \
