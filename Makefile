@@ -2,6 +2,16 @@ default: image
 
 all: image
 
+gitlab_issue:
+	docker build . \
+	-f Dockerfile \
+	--build-arg BASE_IMAGE=python:3.9-slim-bullseye \
+	--build-arg HEPMC_VERSION=2.06.11 \
+	--build-arg LHAPDF_VERSION=6.5.3 \
+	--build-arg FASTJET_VERSION=3.4.0 \
+	--build-arg PYTHIA_VERSION=8307 \
+	--tag matthewfeickert/pythia-python:issue-238
+
 image:
 	docker build . \
 	-f Dockerfile \

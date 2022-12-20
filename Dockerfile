@@ -45,7 +45,7 @@ RUN mkdir /code && \
       -S src \
       -B build && \
     cmake build -L && \
-    cmake --build build --parallel $(nproc --ignore=1) && \
+    cmake --build build --parallel $(nproc --ignore=8) && \
     cmake --build build --target install && \
     rm -rf /code
 
@@ -61,7 +61,7 @@ RUN mkdir /code && \
     export PYTHON=$(which python) && \
     ./configure \
       --prefix=/usr/local/venv && \
-    make -j$(nproc --ignore=1) && \
+    make -j$(nproc --ignore=8) && \
     make install && \
     rm -rf /code
 
@@ -76,7 +76,7 @@ RUN mkdir /code && \
     export CXX=$(which g++) && \
     ./configure \
       --prefix=/usr/local/venv && \
-    make -j$(nproc --ignore=1) && \
+    make -j$(nproc --ignore=8) && \
     make check && \
     make install && \
     python -m pip --no-cache-dir install "fastjet~=${FASTJET_VERSION}.0" && \
@@ -106,7 +106,7 @@ RUN mkdir /code && \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
       --cxx-common="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17" \
       --cxx-shared="-shared -std=c++17" && \
-    make -j$(nproc --ignore=1) && \
+    make -j$(nproc --ignore=8) && \
     make install && \
     rm -rf /code
 
@@ -167,6 +167,12 @@ RUN apt-get -qq -y update && \
     chmod -R 777 /usr/local/venv && \
     echo "SHELL=/bin/bash" >> /etc/environment
 
+RUN python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
+    python -m pip --no-cache-dir install --upgrade jupyter jupyterlab && \
+    mkdir -p -v /docker/ && \
+    printf '#!/bin/bash\n\njupyter lab --no-browser --ip 0.0.0.0 --port 8888\n' > /docker/entrypoint.sh && \
+    chmod 777 /docker/entrypoint.sh
+
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -176,5 +182,10 @@ ENV PYTHIA8DATA=/usr/local/venv/share/Pythia8/xmldoc
 
 USER docker
 
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["/bin/bash"]
+COPY issue-238.ipynb .
+COPY issue-238.py .
+
+# Run with login shell to trigger /etc/profile
+# c.f. https://youngstone89.medium.com/unix-introduction-bash-startup-files-loading-order-562543ac12e9
+ENTRYPOINT ["/bin/bash", "-l"]
+CMD ["/docker/entrypoint.sh"]
