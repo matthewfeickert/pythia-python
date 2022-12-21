@@ -169,6 +169,7 @@ RUN apt-get -qq -y update && \
 
 RUN python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
     python -m pip --no-cache-dir install --upgrade jupyter jupyterlab && \
+    python -m pip --no-cache-dir install --upgrade xeus-python notebook && \
     mkdir -p -v /docker/ && \
     printf '#!/bin/bash\n\njupyter lab --no-browser --ip 0.0.0.0 --port 8888\n' > /docker/entrypoint.sh && \
     chmod 777 /docker/entrypoint.sh
