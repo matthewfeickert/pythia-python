@@ -144,6 +144,7 @@ RUN apt-get -qq -y update && \
       make \
       cmake \
       rsync \
+      git \
       python3-dev \
       libboost-all-dev && \
     apt-get -y autoclean && \
@@ -170,6 +171,8 @@ RUN apt-get -qq -y update && \
 RUN python -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
     python -m pip --no-cache-dir install --upgrade jupyter jupyterlab && \
     python -m pip --no-cache-dir install --upgrade xeus-python notebook && \
+    python -m pip --no-cache-dir install --upgrade matplotlib && \
+    chmod -R 777 /usr/local/venv && \
     mkdir -p -v /docker/ && \
     printf '#!/bin/bash\n\njupyter lab --no-browser --ip 0.0.0.0 --port 8888\n' > /docker/entrypoint.sh && \
     chmod 777 /docker/entrypoint.sh
