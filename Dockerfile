@@ -15,6 +15,7 @@ RUN apt-get -qq -y update && \
       zlib1g-dev \
       libbz2-dev \
       wget \
+      curl \
       make \
       cmake \
       rsync \
@@ -35,7 +36,7 @@ RUN mkdir /code && \
     tar xvfz hepmc${HEPMC_VERSION}.tgz && \
     mv HepMC-${HEPMC_VERSION} src && \
     cmake \
-      -DCMAKE_CXX_COMPILER=$(which g++) \
+      -DCMAKE_CXX_COMPILER=$(command -v g++) \
       -DCMAKE_BUILD_TYPE=Release \
       -Dbuild_docs:BOOL=OFF \
       -Dmomentum:STRING=MEV \
@@ -56,8 +57,8 @@ RUN mkdir /code && \
     tar xvfz LHAPDF-${LHAPDF_VERSION}.tar.gz && \
     cd LHAPDF-${LHAPDF_VERSION} && \
     ./configure --help && \
-    export CXX=$(which g++) && \
-    export PYTHON=$(which python) && \
+    export CXX=$(command -v g++) && \
+    export PYTHON=$(command -v python) && \
     ./configure \
       --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
@@ -72,7 +73,7 @@ RUN mkdir /code && \
     tar xvfz fastjet-${FASTJET_VERSION}.tar.gz && \
     cd fastjet-${FASTJET_VERSION} && \
     ./configure --help && \
-    export CXX=$(which g++) && \
+    export CXX=$(command -v g++) && \
     ./configure \
       --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
@@ -140,10 +141,10 @@ RUN apt-get -qq -y update && \
       zlib1g-dev \
       libbz2-dev \
       wget \
+      curl \
       make \
       cmake \
       rsync \
-      python3-dev \
       libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
