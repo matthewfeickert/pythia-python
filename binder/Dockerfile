@@ -22,6 +22,8 @@ USER ${NB_USER}
 # Allow to use the repository with an authenticated Binder
 RUN python -m pip install --no-cache-dir jupyterhub
 
+RUN printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /etc/profile
+
 # Make sure the contents of the repo are in ${HOME}
 COPY . ${HOME}
 USER root
