@@ -3,10 +3,8 @@ FROM matthewfeickert/pythia-python:pythia8.308
 
 # Remove exisiting non-root user "docker" with uid 1000
 # to avoid conflict with jovyan
-# Install necessary jupyter dependencies
 USER root
-RUN deluser docker && \
-    python -m pip install --no-cache-dir jupyter jupyterlab
+RUN deluser docker
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -21,9 +19,6 @@ RUN adduser --disabled-password \
     ${NB_USER}
 USER ${NB_USER}
 
-# Allow to use the repository with an authenticated Binder
-RUN python -m pip install --no-cache-dir jupyterhub
-
 # Make sure the contents of the repo are in ${HOME}
 COPY . ${HOME}
 USER root
@@ -31,6 +26,10 @@ RUN chown -R ${NB_UID} ${HOME} && \
     chown -R ${NB_UID} /usr/local/venv
 USER ${NB_USER}
 WORKDIR ${HOME}
+
+# Install necessary jupyter dependencies
+# Install jupyterhub to allow use of the repository with an authenticated Binder
+RUN python -m pip install --no-cache-dir jupyter jupyterlab jupyterhub
 
 ENTRYPOINT [ ]
 CMD [ ]
