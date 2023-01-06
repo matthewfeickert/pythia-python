@@ -62,6 +62,7 @@ RUN mkdir /code && \
     ./configure \
       --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
+    make check && \
     make install && \
     rm -rf /code
 
@@ -83,7 +84,7 @@ RUN mkdir /code && \
     rm -rf /code
 
 # Install PYTHIA
-ARG PYTHIA_VERSION=8307
+ARG PYTHIA_VERSION=8308
 # PYTHON_VERSION already exists in the base image
 RUN mkdir /code && \
     cd /code && \
@@ -91,7 +92,7 @@ RUN mkdir /code && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
-    export PYTHON_MINOR_VERSION=${PYTHON_VERSION%.*} && \
+    export PYTHON_MINOR_VERSION="${PYTHON_VERSION%.*}" && \
     ./configure \
       --prefix=/usr/local/venv \
       --arch=Linux \
@@ -106,7 +107,7 @@ RUN mkdir /code && \
       --with-python-include=/usr/local/include/python${PYTHON_MINOR_VERSION} \
       --cxx-common="-O2 -m64 -pedantic -W -Wall -Wshadow -fPIC -std=c++17" \
       --cxx-shared="-shared -std=c++17" && \
-    make -j$(nproc --ignore=1) && \
+    make --jobs $(nproc --ignore=1) && \
     make install && \
     rm -rf /code
 
