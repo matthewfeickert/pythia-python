@@ -6,6 +6,9 @@ FROM matthewfeickert/pythia-python:pythia8.308
 USER root
 RUN deluser docker
 
+# DEBUG
+RUN printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /etc/profile
+
 ARG NB_USER=jovyan
 ARG NB_UID=1000
 ENV USER ${NB_USER}
@@ -21,8 +24,6 @@ USER ${NB_USER}
 
 # Allow to use the repository with an authenticated Binder
 RUN python -m pip install --no-cache-dir jupyterhub
-
-RUN printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /etc/profile
 
 # Make sure the contents of the repo are in ${HOME}
 COPY . ${HOME}
