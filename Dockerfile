@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.9-slim-bullseye
+ARG BASE_IMAGE=python:3.10-slim-bullseye
 FROM ${BASE_IMAGE} as base
 
 SHELL [ "/bin/bash", "-c" ]
@@ -15,10 +15,10 @@ RUN apt-get -qq -y update && \
       zlib1g-dev \
       libbz2-dev \
       wget \
+      curl \
       make \
       cmake \
       rsync \
-      python3-dev \
       libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
@@ -36,7 +36,7 @@ RUN mkdir /code && \
     tar xvfz hepmc${HEPMC_VERSION}.tgz && \
     mv HepMC-${HEPMC_VERSION} src && \
     cmake \
-      -DCMAKE_CXX_COMPILER=$(which g++) \
+      -DCMAKE_CXX_COMPILER=$(command -v g++) \
       -DCMAKE_BUILD_TYPE=Release \
       -Dbuild_docs:BOOL=OFF \
       -Dmomentum:STRING=MEV \
@@ -57,8 +57,8 @@ RUN mkdir /code && \
     tar xvfz LHAPDF-${LHAPDF_VERSION}.tar.gz && \
     cd LHAPDF-${LHAPDF_VERSION} && \
     ./configure --help && \
-    export CXX=$(which g++) && \
-    export PYTHON=$(which python) && \
+    export CXX=$(command -v g++) && \
+    export PYTHON=$(command -v python) && \
     ./configure \
       --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
@@ -73,7 +73,7 @@ RUN mkdir /code && \
     tar xvfz fastjet-${FASTJET_VERSION}.tar.gz && \
     cd fastjet-${FASTJET_VERSION} && \
     ./configure --help && \
-    export CXX=$(which g++) && \
+    export CXX=$(command -v g++) && \
     ./configure \
       --prefix=/usr/local/venv && \
     make -j$(nproc --ignore=1) && \
@@ -91,7 +91,7 @@ RUN mkdir /code && \
     tar xvfz pythia${PYTHIA_VERSION}.tgz && \
     cd pythia${PYTHIA_VERSION} && \
     ./configure --help && \
-    export PYTHON_MINOR_VERSION=${PYTHON_VERSION::3} && \
+    export PYTHON_MINOR_VERSION=${PYTHON_VERSION%.*} && \
     ./configure \
       --prefix=/usr/local/venv \
       --arch=Linux \
@@ -141,10 +141,10 @@ RUN apt-get -qq -y update && \
       zlib1g-dev \
       libbz2-dev \
       wget \
+      curl \
       make \
       cmake \
       rsync \
-      python3-dev \
       libboost-all-dev && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \

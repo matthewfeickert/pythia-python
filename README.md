@@ -5,17 +5,17 @@
 
 > PYTHIA is a program for the generation of high-energy physics events, i.e. for the description of collisions at high energies between elementary particles such as e+, e-, p and pbar in various combinations.
 
-`PYTHIA` 8's source is [distributed on GitLab](https://gitlab.com/Pythia8/releases) and is a product of the [`PYTHIA` development team](http://home.thep.lu.se/~torbjorn/Pythia.html).
+`PYTHIA` 8's source is [distributed on GitLab](https://gitlab.com/Pythia8/releases) and is a product of the [`PYTHIA` development team](https://pythia.org/).
 
 ## Distributed Software
 
 The Docker image contains:
 
-* Python 3.9
+* Python 3.10
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
 * [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
 * [FastJet](http://fastjet.fr/) `v3.4.0`
-* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.307`
+* [PYTHIA](https://pythia.org/) `v8.307`
 
 ## Installation
 
@@ -33,7 +33,7 @@ You can either use the image as "`PYTHIA` as a service", as demoed here with the
 ```
 docker run \
   --rm \
-  --user $(id --user $USER):$(id --group) \
+  --user $(id -u $USER):$(id -g) \
   --volume $PWD:/work \
   matthewfeickert/pythia-python:pythia8.307 \
   'python tests/main01.py > main01_out_py.txt'
@@ -44,7 +44,7 @@ or the original C++
 ```
 docker run \
   --rm \
-  --user $(id --user $USER):$(id --group) \
+  --user $(id -u $USER):$(id -g) \
   --volume $PWD:/work \
   matthewfeickert/pythia-python:pythia8.307 \
   'g++ tests/main01.cc -o tests/main01 $(pythia8-config --ldflags); ./tests/main01 > main01_out_cpp.txt'
