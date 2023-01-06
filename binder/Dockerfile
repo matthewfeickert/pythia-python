@@ -3,11 +3,10 @@ FROM matthewfeickert/pythia-python:pythia8.308
 
 # Remove exisiting non-root user "docker" with uid 1000
 # to avoid conflict with jovyan
+# Install necessary jupyter dependencies
 USER root
-RUN deluser docker
-
-# DEBUG
-RUN printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /etc/profile
+RUN deluser docker && \
+    python -m pip install --no-cache-dir jupyter jupyterlab
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
