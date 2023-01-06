@@ -1,11 +1,11 @@
 # c.f. https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html#preparing-your-dockerfile
 FROM matthewfeickert/pythia-python:pythia8.308
 
-# Remove exisiting non-root user "docker" with uid 1000
-# to avoid conflict with jovyan
+# Remove exisiting non-root user "docker" with uid 1000 to avoid conflict with NB_USER
 USER root
 RUN deluser docker
 
+# Add default user NB_USER
 ARG NB_USER=jovyan
 ARG NB_UID=1000
 ENV USER ${NB_USER}
