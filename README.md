@@ -15,7 +15,7 @@ The Docker image contains:
 * [HepMC2](http://hepmc.web.cern.ch/hepmc/) `v2.06.11`
 * [LHAPDF](https://lhapdf.hepforge.org/) `v6.5.3`
 * [FastJet](http://fastjet.fr/) `v3.4.0`
-* [PYTHIA](http://home.thep.lu.se/~torbjorn/Pythia.html) `v8.307`
+* [PYTHIA](https://pythia.org/) `v8.307`
 
 ## Installation
 
