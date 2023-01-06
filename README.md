@@ -47,7 +47,7 @@ docker run \
   --user $(id -u $USER):$(id -g $USER) \
   --volume $PWD:/work \
   matthewfeickert/pythia-python:pythia8.308 \
-  'g++ tests/main01.cc -o tests/main01 $(pythia8-config --ldflags); ./tests/main01 > main01_out_cpp.txt'
+  'g++ tests/main01.cc -pthread -o tests/main01 $(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt'
 ```
 
 or you can run interactively
