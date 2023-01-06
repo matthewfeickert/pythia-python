@@ -46,7 +46,7 @@ CMD [ ]
 # docker run -it --rm -p 8888:8888 matthewfeickert/pythia-python:binder jupyter lab --NotebookApp.default_url=/lab/ --ip=0.0.0.0 --port=8888
 
 # PASS:
-# docker run -it --rm -p 8888:8888 matthewfeickert/pythia-python:binder jupyter lab --NotebookApp.default_url=/lab/ --ip=0.0.0.0 --port=8888
+# docker run -it --rm -p 8888:8888 matthewfeickert/pythia-python:binder jupyter lab --ip=0.0.0.0 --port=8888
 
 # PASS:
 # docker run -it --rm -p 8888:8888 matthewfeickert/pythia-python:binder jupyter notebook --ip=0.0.0.0 --port=8888
