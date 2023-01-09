@@ -21,7 +21,11 @@ USER ${NB_USER}
 # FIXME: Downgrade jupyter-server to contend with:
 # https://github.com/jupyterhub/repo2docker/issues/1231
 # https://github.com/jupyter-server/jupyter_server/issues/1038
-RUN python -m pip --no-cache-dir install --upgrade 'jupyter-server<2.0.0'
+RUN python -m pip --no-cache-dir install --upgrade \
+    notebook \
+    jupyterlab \
+    jupyterhub \
+    'jupyter-server<2.0.0'
 
 # Make sure the contents of the repo are in ${HOME}
 COPY . ${HOME}
