@@ -48,3 +48,8 @@ test_fastjet:
 		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
         'g++ tests/test_FastJet.cc -o tests/test_FastJet $$(fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet'
+
+binder_repo2docker:
+	repo2docker \
+	--image-name matthewfeickert/pythia-python:binder \
+	.

@@ -2,6 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/matthewfeickert/pythia-python)](https://hub.docker.com/r/matthewfeickert/pythia-python)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/matthewfeickert/pythia-python/latest)](https://hub.docker.com/r/matthewfeickert/pythia-python/tags?name=latest)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/matthewfeickert/pythia-python/HEAD)
 
 > PYTHIA is a program for the generation of high-energy physics events, i.e. for the description of collisions at high energies between elementary particles such as e+, e-, p and pbar in various combinations.
 
