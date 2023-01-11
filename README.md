@@ -54,5 +54,11 @@ docker run \
 or you can run interactively
 
 ```
-docker run --rm -it matthewfeickert/pythia-python:latest
+docker run \
+  --rm \
+  -ti \
+  --publish 8888:8888 \
+  --user $(id -u $USER):$(id -g $USER) \
+  --volume $PWD:/work \
+  matthewfeickert/pythia-python:pythia8.308
 ```
