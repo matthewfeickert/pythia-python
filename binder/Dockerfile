@@ -34,7 +34,8 @@ RUN python -m pip --no-cache-dir install --upgrade \
 COPY . ${HOME}
 USER root
 RUN chown -R ${NB_UID} ${HOME} && \
-    chown -R ${NB_UID} /usr/local/venv
+    chown -R ${NB_UID} /usr/local/venv && \
+    find "${HOME}/examples" -type f -iname "*.py" | xargs jupytext --to notebook
 USER ${NB_USER}
 WORKDIR ${HOME}
 
