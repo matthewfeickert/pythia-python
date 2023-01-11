@@ -25,7 +25,10 @@ RUN python -m pip --no-cache-dir install --upgrade \
     notebook \
     jupyterlab \
     jupyterhub \
-    'jupyter-server<2.0.0'
+    'jupyter-server<2.0.0' \
+    matplotlib \
+    ipympl \
+    jupytext
 
 # Make sure the contents of the repo are in ${HOME}
 COPY . ${HOME}
