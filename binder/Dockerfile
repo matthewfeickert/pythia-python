@@ -25,12 +25,17 @@ RUN python -m pip --no-cache-dir install --upgrade \
     notebook \
     jupyterlab \
     jupyterhub \
-    'jupyter-server<2.0.0'
+    'jupyter-server<2.0.0' \
+    matplotlib \
+    ipympl \
+    jupytext
 
-# Make sure the contents of the repo are in ${HOME}
+# Make sure the contents of the repo are in ${HOME} and that
+# NB_UID owns all files it should control
 COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME} && \
+RUN find "${HOME}/examples" -type f -iname "*.py" | xargs jupytext --to notebook && \
+    chown -R ${NB_UID} ${HOME} && \
     chown -R ${NB_UID} /usr/local/venv
 USER ${NB_USER}
 WORKDIR ${HOME}
