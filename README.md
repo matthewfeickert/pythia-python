@@ -35,7 +35,7 @@ You can either use the image as "`PYTHIA` as a service", as demoed here with the
 docker run \
   --rm \
   --user $(id -u $USER):$(id -g $USER) \
-  --volume $PWD:/work \
+  --volume $PWD:/home/docker/work \
   matthewfeickert/pythia-python:pythia8.308 \
   'python tests/main01.py > main01_out_py.txt'
 ```
@@ -46,7 +46,7 @@ or the original C++
 docker run \
   --rm \
   --user $(id -u $USER):$(id -g $USER) \
-  --volume $PWD:/work \
+  --volume $PWD:/home/docker/work \
   matthewfeickert/pythia-python:pythia8.308 \
   'g++ tests/main01.cc -pthread -o tests/main01 $(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt'
 ```
@@ -59,6 +59,6 @@ docker run \
   -ti \
   --publish 8888:8888 \
   --user $(id -u $USER):$(id -g $USER) \
-  --volume $PWD:/work \
+  --volume $PWD:/home/docker/work \
   matthewfeickert/pythia-python:pythia8.308
 ```
