@@ -17,7 +17,7 @@ multi_platform:
 	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.4.0 \
 	--build-arg PYTHIA_VERSION=8307 \
-	--tag matthewfeickert/pythia-python:pythia8.307 \
+	--tag matthewfeickert/pythia-python:pythia8.308 \
 	--tag matthewfeickert/pythia-python:latest \
 	--push \
 	.
