@@ -1,5 +1,8 @@
 FROM matthewfeickert/pythia-python:pythia8.308
 
+SHELL [ "/bin/bash", "-c" ]
+ENV PATH=/usr/local/venv/bin:"${PATH}"
+
 # Remove existing non-root user "docker" with uid 1000
 # to avoid conflict with jovyan
 USER root
@@ -12,10 +15,12 @@ ENV NB_UID ${NB_UID}
 ENV HOME /home/${NB_USER}
 
 USER root
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+RUN adduser \
+      --shell /bin/bash \
+      --gecos "Default user" \
+      --uid ${NB_UID} \
+      --disabled-password \
+      ${NB_USER}
 USER ${NB_USER}
 
 # FIXME: Downgrade jupyter-server to contend with:
@@ -35,8 +40,7 @@ RUN python -m pip --no-cache-dir install --upgrade \
 COPY . ${HOME}
 USER root
 RUN find "${HOME}/examples" -type f -iname "*.py" | xargs jupytext --to notebook && \
-    chown -R ${NB_UID} ${HOME} && \
-    chown -R ${NB_UID} /usr/local/venv
+    chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 WORKDIR ${HOME}
 
