@@ -6,12 +6,12 @@ image:
 	docker build . \
 	-f Dockerfile \
 	--build-arg BASE_IMAGE=python:3.10-slim-bullseye \
-	--build-arg HEPMC_VERSION=2.06.11 \
+	--build-arg HEPMC_VERSION=3.2.5 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.4.0 \
 	--build-arg PYTHIA_VERSION=8308 \
 	--tag matthewfeickert/pythia-python:pythia8.308 \
-	--tag matthewfeickert/pythia-python:pythia8.308-hepmc2.06.11-fastjet3.4.0-python3.10 \
+	--tag matthewfeickert/pythia-python:pythia8.308-hepmc3.2.5-fastjet3.4.0-python3.10 \
 	--tag matthewfeickert/pythia-python:latest
 
 run:
@@ -33,13 +33,13 @@ test:
 		"python tests/main01.py > main01_out_py.txt"
 	wc main01_out_py.txt
 
-test_hepmc:
+test_hepmc3:
 	docker run \
 		--rm \
 		--user $(shell id --user $(USER)):$(shell id --group) \
 		--volume $(shell pwd):/work \
 		matthewfeickert/pythia-python:latest \
-		'g++ tests/main42.cc -pthread -o tests/main42 $$(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc'
+		'g++ tests/main300.cc -pthread -o tests/main300 $$(pythia8-config --cxxflags --ldflags) -lHepMC3; ./tests/main300 --input main300.cmnd --hepmc_output main300.hepmc'
 
 test_fastjet:
 	docker run \

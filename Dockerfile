@@ -29,18 +29,19 @@ RUN apt-get -qq -y update && \
     python -m pip list
 
 # Install HepMC
-ARG HEPMC_VERSION=2.06.11
+ARG HEPMC_VERSION=3.2.5
 RUN mkdir /code && \
     cd /code && \
-    wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
-    tar xvfz hepmc${HEPMC_VERSION}.tgz && \
-    mv HepMC-${HEPMC_VERSION} src && \
+    wget https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tar.gz && \
+    tar xvfz HepMC3-${HEPMC_VERSION}.tar.gz && \
+    mv HepMC3-${HEPMC_VERSION} src && \
     cmake \
       -DCMAKE_CXX_COMPILER=$(command -v g++) \
       -DCMAKE_BUILD_TYPE=Release \
-      -Dbuild_docs:BOOL=OFF \
-      -Dmomentum:STRING=MEV \
-      -Dlength:STRING=MM \
+      -DHEPMC3_ENABLE_ROOTIO=OFF \
+      -DHEPMC3_ENABLE_PYTHON=ON \
+      -DHEPMC3_PYTHON_VERSIONS=3.X \
+      -DHEPMC3_ENABLE_TEST=ON \
       -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
       -S src \
       -B build && \
@@ -99,7 +100,7 @@ RUN mkdir /code && \
       --cxx=g++ \
       --enable-64bit \
       --with-gzip \
-      --with-hepmc2=/usr/local/venv \
+      --with-hepmc3=/usr/local/venv \
       --with-lhapdf6=/usr/local/venv \
       --with-fastjet3=/usr/local/venv \
       --with-python-bin=/usr/local/venv/bin/ \
