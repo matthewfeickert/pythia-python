@@ -41,19 +41,22 @@ jobs:
         matthewfeickert/pythia-python:test
         "python tests/main01.py > main01_out_py.txt";
         wc main01_out_py.txt
-    - name: Test HepMC
+
+    - name: Test HepMC3
       run: >-
         docker run --rm
         --user $(id --user $USER):$(id --group)
         --volume $PWD:/home/docker/work
         matthewfeickert/pythia-python:test
-        'g++ tests/main42.cc -pthread -o tests/main42 $(pythia8-config --cxxflags --ldflags) -lHepMC; ./tests/main42 tests/main42.cmnd main42_out.hepmc'
-        wc main42_out.hepmc
+        'g++ tests/main300.cc -pthread -o tests/main300 $(pythia8-config --cxxflags --ldflags) -lHepMC3; ./tests/main300 --input main300.cmnd --hepmc_output main300.hepmc'
+        wc main300.hepmc
+
     - name: Test LHAPDF CLI
       run: >-
         docker run --rm
         matthewfeickert/pythia-python:test
         "lhapdf install CT10nlo"
+
     - name: Test FastJet
       run: >-
         docker run --rm
