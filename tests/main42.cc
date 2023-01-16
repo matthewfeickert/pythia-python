@@ -15,7 +15,7 @@
 // Therefore large event samples may be impractical.
 
 #include "Pythia8/Pythia.h"
-#include "Pythia8Plugins/HepMC2.h"
+#include "Pythia8Plugins/HepMC3.h"
 #include "Pythia8Plugins/ColourReconnectionHooks.h"
 
 using namespace Pythia8;

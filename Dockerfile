@@ -29,7 +29,7 @@ RUN apt-get -qq -y update && \
     python -m pip list
 
 # Install HepMC
-ARG HEPMC_VERSION=2.06.11
+ARG HEPMC_VERSION=3.2.5
 RUN mkdir /code && \
     cd /code && \
     wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
@@ -99,7 +99,7 @@ RUN mkdir /code && \
       --cxx=g++ \
       --enable-64bit \
       --with-gzip \
-      --with-hepmc2=/usr/local/venv \
+      --with-hepmc3=/usr/local/venv \
       --with-lhapdf6=/usr/local/venv \
       --with-fastjet3=/usr/local/venv \
       --with-python-bin=/usr/local/venv/bin/ \
