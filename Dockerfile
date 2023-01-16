@@ -32,15 +32,16 @@ RUN apt-get -qq -y update && \
 ARG HEPMC_VERSION=3.2.5
 RUN mkdir /code && \
     cd /code && \
-    wget https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tgz && \
-    tar xvfz HepMC3-${HEPMC_VERSION}.tgz && \
-    mv HepMC3-${HEPMC_VERSION}.tgz src && \
+    wget https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tar.gz && \
+    tar xvfz HepMC3-${HEPMC_VERSION}.tar.gz && \
+    mv HepMC3-${HEPMC_VERSION} src && \
     cmake \
       -DCMAKE_CXX_COMPILER=$(command -v g++) \
       -DCMAKE_BUILD_TYPE=Release \
-      -Dbuild_docs:BOOL=OFF \
-      -Dmomentum:STRING=MEV \
-      -Dlength:STRING=MM \
+      -DHEPMC3_ENABLE_ROOTIO=OFF \
+      -DHEPMC3_ENABLE_PYTHON=ON \
+      -DHEPMC3_PYTHON_VERSIONS=3.X \
+      -DHEPMC3_ENABLE_TEST=ON \
       -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
       -S src \
       -B build && \
