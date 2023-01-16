@@ -86,7 +86,6 @@ jobs:
     - name: Test Python imports
       run: >-
         docker run --rm
-        --user $(id --user $USER):$(id --group)
         --volume $PWD:/home/docker/work
         matthewfeickert/pythia-python:test
         "python -m pip install --upgrade pytest; pytest --verbose tests"
