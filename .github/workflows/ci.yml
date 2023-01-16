@@ -27,8 +27,13 @@ jobs:
         tag_with_sha: true
         tag_with_ref: true
         push: false
+
     - name: List Built Images
       run: docker images
+
+    - name: Display user id
+      run: id
+
     - name: Run test program in C++
       run: >-
         docker run --rm
@@ -37,6 +42,7 @@ jobs:
         matthewfeickert/pythia-python:test
         'g++ tests/main01.cc -pthread -o tests/main01 $(pythia8-config --cxxflags --ldflags); ./tests/main01 > main01_out_cpp.txt';
         wc main01_out_cpp.txt
+
     - name: Run test program in Python
       run: >-
         docker run --rm
