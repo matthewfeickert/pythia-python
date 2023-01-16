@@ -61,6 +61,7 @@ jobs:
         --volume $PWD:/home/docker/work
         matthewfeickert/pythia-python:test
         'g++ tests/test_FastJet.cc -o tests/test_FastJet $(fastjet-config --cxxflags --libs --plugins); ./tests/test_FastJet'
+
     - name: Test FastJet Python
       run: >-
         docker run --rm
@@ -68,3 +69,11 @@ jobs:
         --volume $PWD:/home/docker/work
         matthewfeickert/pythia-python:test
         "python tests/test_FastJet.py"
+
+    - name: Test Python imports
+      run: >-
+        docker run --rm
+        --user $(id --user $USER):$(id --group)
+        --volume $PWD:/home/docker/work
+        matthewfeickert/pythia-python:test
+        "python -m pip install --upgrade pytest; pytest --verbose tests"
