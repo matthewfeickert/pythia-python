@@ -32,9 +32,9 @@ RUN apt-get -qq -y update && \
 ARG HEPMC_VERSION=3.2.5
 RUN mkdir /code && \
     cd /code && \
-    wget http://hepmc.web.cern.ch/hepmc/releases/hepmc${HEPMC_VERSION}.tgz && \
-    tar xvfz hepmc${HEPMC_VERSION}.tgz && \
-    mv HepMC-${HEPMC_VERSION} src && \
+    wget https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC_VERSION}.tgz && \
+    tar xvfz HepMC3-${HEPMC_VERSION}.tgz && \
+    mv HepMC3-${HEPMC_VERSION}.tgz src && \
     cmake \
       -DCMAKE_CXX_COMPILER=$(command -v g++) \
       -DCMAKE_BUILD_TYPE=Release \
