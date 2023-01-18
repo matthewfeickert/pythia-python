@@ -131,7 +131,9 @@ RUN apt-get -qq -y update && \
       make \
       cmake \
       rsync \
-      libboost-all-dev && \
+      libboost-all-dev \
+      vim \
+      emacs && \
     apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
@@ -148,6 +150,7 @@ RUN adduser \
     chown -R docker /home/docker/work && \
     mkdir /work && \
     chown -R docker /work && \
+    chmod -R 777 /work && \
     printf '\nexport PATH=/usr/local/venv/bin:"${PATH}"\n' >> /root/.bashrc && \
     cp /root/.bashrc /etc/.bashrc && \
     echo 'if [ -f /etc/.bashrc ]; then . /etc/.bashrc; fi' >> /etc/profile && \
@@ -162,7 +165,7 @@ ENV PYTHIA8DATA=/usr/local/venv/share/Pythia8/xmldoc
 
 ENV PATH=/home/docker/.local/bin:"${PATH}"
 
-COPY --from=builder --chown=docker /usr/local/venv /usr/local/venv
+COPY --from=builder --chown=docker --chmod=777 /usr/local/venv /usr/local/venv
 
 USER docker
 
