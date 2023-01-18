@@ -10,23 +10,40 @@ on:
   schedule:
   - cron:  '1 0 * * 0'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-    - name: Build Docker image
-      if: "!(startsWith(github.ref, 'refs/tags/'))"
-      uses: docker/build-push-action@v1
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Test build
+      id: docker_build_test
+      uses: docker/build-push-action@v3
       with:
-        repository: matthewfeickert/pythia-python
-        dockerfile: Dockerfile
-        tags: test
-        tag_with_sha: true
-        tag_with_ref: true
+        context: .
+        file: Dockerfile
+        tags: matthewfeickert/pythia-python:test
+        load: true
         push: false
+
+    - name: Image digest
+      run: echo ${{ steps.docker_build_test.outputs.digest }}
+
+    - name: List built images
+      run: docker images
 
     - name: List Built Images
       run: docker images
