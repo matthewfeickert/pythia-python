@@ -3,8 +3,8 @@ default: image
 all: image
 
 image:
-	docker build . \
-	-f Dockerfile \
+	docker buildx build . \
+	--file Dockerfile \
 	--build-arg BASE_IMAGE=python:3.10-slim-bullseye \
 	--build-arg HEPMC_VERSION=3.2.5 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
