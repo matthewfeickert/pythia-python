@@ -19,10 +19,10 @@ endif
 	--file Dockerfile \
 	--platform linux/amd64,linux/arm64 \
 	--build-arg BASE_IMAGE=python:3.10-slim-bullseye \
-	--build-arg HEPMC_VERSION=2.06.11 \
+	--build-arg HEPMC_VERSION=3.2.5 \
 	--build-arg LHAPDF_VERSION=6.5.3 \
 	--build-arg FASTJET_VERSION=3.4.0 \
-	--build-arg PYTHIA_VERSION=8307 \
+	--build-arg PYTHIA_VERSION=8308 \
 	--tag matthewfeickert/pythia-python:pythia8.308 \
 	--tag matthewfeickert/pythia-python:latest \
 	--push \
