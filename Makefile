@@ -4,6 +4,12 @@ all: image
 
 multi_platform:
 	docker pull python:3.10-slim-bullseye
+	docker pull tonistiigi/binfmt
+ifeq ($(shell uname -m),x86_64)
+	docker run --privileged --rm tonistiigi/binfmt --install arm64
+else
+	docker run --privileged --rm tonistiigi/binfmt --install amd64
+endif
 	docker buildx create \
 		--name buildx_builder \
 		--driver docker-container \
