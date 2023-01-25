@@ -39,6 +39,7 @@ jobs:
         tags: matthewfeickert/pythia-python:test
         load: true
         push: false
+        platforms: linux/amd64,linux/arm64
 
     - name: Image digest
       run: echo ${{ steps.docker_build_test.outputs.digest }}
